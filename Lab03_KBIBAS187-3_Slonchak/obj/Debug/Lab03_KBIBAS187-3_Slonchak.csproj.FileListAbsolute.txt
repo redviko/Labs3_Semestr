@@ -1,0 +1,10 @@
+C:\Users\User\source\repos\Lab03_KBIBAS187-3_Slonchak\Lab03_KBIBAS187-3_Slonchak\bin\Debug\Lab03_KBIBAS187-3_Slonchak.exe.config
+C:\Users\User\source\repos\Lab03_KBIBAS187-3_Slonchak\Lab03_KBIBAS187-3_Slonchak\bin\Debug\Lab03_KBIBAS187-3_Slonchak.exe
+C:\Users\User\source\repos\Lab03_KBIBAS187-3_Slonchak\Lab03_KBIBAS187-3_Slonchak\bin\Debug\Lab03_KBIBAS187-3_Slonchak.pdb
+C:\Users\User\source\repos\Lab03_KBIBAS187-3_Slonchak\Lab03_KBIBAS187-3_Slonchak\obj\Debug\Lab03_KBIBAS187-3_Slonchak.csprojAssemblyReference.cache
+C:\Users\User\source\repos\Lab03_KBIBAS187-3_Slonchak\Lab03_KBIBAS187-3_Slonchak\obj\Debug\Lab03_KBIBAS187_3_Slonchak.Form1.resources
+C:\Users\User\source\repos\Lab03_KBIBAS187-3_Slonchak\Lab03_KBIBAS187-3_Slonchak\obj\Debug\Lab03_KBIBAS187_3_Slonchak.Properties.Resources.resources
+C:\Users\User\source\repos\Lab03_KBIBAS187-3_Slonchak\Lab03_KBIBAS187-3_Slonchak\obj\Debug\Lab03_KBIBAS187-3_Slonchak.csproj.GenerateResource.cache
+C:\Users\User\source\repos\Lab03_KBIBAS187-3_Slonchak\Lab03_KBIBAS187-3_Slonchak\obj\Debug\Lab03_KBIBAS187-3_Slonchak.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Lab03_KBIBAS187-3_Slonchak\Lab03_KBIBAS187-3_Slonchak\obj\Debug\Lab03_KBIBAS187-3_Slonchak.exe
+C:\Users\User\source\repos\Lab03_KBIBAS187-3_Slonchak\Lab03_KBIBAS187-3_Slonchak\obj\Debug\Lab03_KBIBAS187-3_Slonchak.pdb
