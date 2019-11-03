@@ -24,6 +24,16 @@ namespace Lab04_KBIBAS187_3
         public Form1()
         {
             InitializeComponent();
+            checkBox2=new CheckBox();
+            checkBox2.AutoSize = true;
+            checkBox2.Location=new Point(390,31);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size=new Size(80,17);
+            checkBox2.TabIndex = 4;
+            checkBox2.Text = "checkBox2";
+            checkBox2.UseVisualStyleBackColor = true;
+            Controls.Add(checkBox2);
+            checkBox2.CheckStateChanged += CheckBox2_CheckChanged;
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             // 
             // checkBox1
@@ -76,15 +86,29 @@ namespace Lab04_KBIBAS187_3
             }
         }
 
+        private void CheckBox2_CheckChanged(object sender, EventArgs e)
+        {
+            CheckBox checkBox=sender as CheckBox;
+            if (checkBox.Checked)
+            {
+                ControlBox = !ControlBox;
+            }
+            else
+            {
+                ControlBox = !ControlBox;
+            }
+        }
         private void CheckBox1_CheckChanged(object sender, EventArgs e)
         {
             CheckBox checkBox = (CheckBox) sender;
             if (checkBox.Checked)
             {
                 Text = "";
+                //ControlBox = !ControlBox;
             }
             else
             {
+                //ControlBox = !ControlBox;
                 Text = "Form1";
             }
         }
