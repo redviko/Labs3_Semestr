@@ -14,6 +14,7 @@ namespace Lab04_KBIBAS187_3
     {
         //public Boolean args { get; set; }
         public Int32 Index { get; set; } = 0;
+
         //public  SystemMenu
         public Font[] Fonts { get; } =
         {
@@ -21,14 +22,15 @@ namespace Lab04_KBIBAS187_3
             new Font("Regurgitation", 8), new Font("Yu Gothic", 8), new Font("Arial", 8),
             new Font("Microsoft Sans Serif", 8), new Font("Javanese Text", 8)
         };
+
         public Form1()
         {
             InitializeComponent();
-            checkBox2=new CheckBox();
+            checkBox2 = new CheckBox();
             checkBox2.AutoSize = true;
-            checkBox2.Location=new Point(390,31);
+            checkBox2.Location = new Point(390, 31);
             checkBox2.Name = "checkBox2";
-            checkBox2.Size=new Size(80,17);
+            checkBox2.Size = new Size(80, 17);
             checkBox2.TabIndex = 4;
             checkBox2.Text = "checkBox2";
             checkBox2.UseVisualStyleBackColor = true;
@@ -88,7 +90,7 @@ namespace Lab04_KBIBAS187_3
 
         private void CheckBox2_CheckChanged(object sender, EventArgs e)
         {
-            CheckBox checkBox=sender as CheckBox;
+            CheckBox checkBox = sender as CheckBox;
             if (checkBox.Checked)
             {
                 ControlBox = !ControlBox;
@@ -98,6 +100,7 @@ namespace Lab04_KBIBAS187_3
                 ControlBox = !ControlBox;
             }
         }
+
         private void CheckBox1_CheckChanged(object sender, EventArgs e)
         {
             CheckBox checkBox = (CheckBox) sender;
@@ -108,8 +111,115 @@ namespace Lab04_KBIBAS187_3
             }
             else
             {
+                if (listBox1.Items != null) listBox1.Items.Remove(listBox1.SelectedIndex);
                 //ControlBox = !ControlBox;
                 Text = "Form1";
+            }
+        }
+
+        private void ToolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            if (listBox1.Items.Count!=0) listBox1.Items.Remove(listBox1.SelectedItem);
+        }
+
+        private void ToolStripTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            //Text = "";
+            if (e.KeyCode==Keys.Enter)
+            {
+                if (toolStripTextBox1.TextLength!=0)
+                {
+                    listBox1.Items.Add(toolStripTextBox1.Text);
+                    toolStripTextBox1.Text = "";
+                }
+            }
+        }
+
+        private void ToolStripTextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsDigit(e.KeyChar) && e.KeyChar != Convert.ToChar(8))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void ToolStripMenuItem6_Click(object sender, EventArgs e)
+        {
+            Int32 a = 0;
+            Int32 count = 0;
+            Int32 sum = 0;
+            foreach (var item in listBox1.Items)
+            {
+                a = int.Parse(item.ToString());
+                if (a%2==0)
+                {
+                    count++;
+                    sum += a;
+                }
+            }
+
+            if (count>0)
+            {
+
+                listBox2.Items.Add($"Сумма:{sum}");
+                listBox2.Items.Add($"Чётных {count}");
+            }
+            else if (listBox1.Items.Count!=0)
+            {
+                listBox2.Items.Add("Чётных нет, но вы держитесь.");
+            }
+            else
+            {
+                listBox2.Items.Add("Может в ListBox что-то добавить?");
+            }
+
+        }
+
+        private void ToolStripMenuItem7_Click(object sender, EventArgs e)
+        {
+            Int32 integer;
+            Boolean evencount = false;
+            Int32 Countfor = 5;
+            if (listBox1.Items.Count >= 5)
+            {
+                for (int i = listBox1.Items.Count - 1; i >= 0; i--)
+                {
+                    int.TryParse(listBox1.Items[i].ToString(),out integer);
+                    if (integer % 2 == 0)
+                    {
+                        evencount = true;
+                    }
+
+                    Countfor--;
+                    if (Countfor == 0 || evencount)
+                    {
+                        break;
+                    }
+                }
+
+                if (evencount)
+                {
+                    Countfor = 5;
+                    for (int i = listBox1.Items.Count - 1; i >= 0; i--)
+                    {
+                        listBox2.Items.Add(listBox1.Items[i]);
+                        Countfor--;
+                        if (Countfor == 0)
+                        {
+                            break;
+                        }
+                    }
+
+                    //listBox2.Items.Add()
+                }
+                else
+                {
+                    listBox2.Items.Add("Среди последних 5-ти нет блин чётных чисел.");
+                }
+            }
+            else
+            {
+                listBox2.Items.Add("Не хватает чисел.");
             }
         }
     }
