@@ -114,7 +114,7 @@ namespace Lab04_KBIBAS187_3
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != Convert.ToChar(8)) e.Handled = true;
         }
 
-        private void ToolStripMenuItem6_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem6_Click(object sender, EventArgs e) //Проверка на количество чётных и вывод их суммы
         {
             var a = 0;
             var count = 0;
@@ -144,7 +144,7 @@ namespace Lab04_KBIBAS187_3
             }
         }
 
-        private void ToolStripMenuItem7_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem7_Click(object sender, EventArgs e)  //Проверка на чётность среди 5 чисел с конца
         {
             int integer;
             var evencount = false;
@@ -161,7 +161,7 @@ namespace Lab04_KBIBAS187_3
                         reseti = true;
                     }
 
-                    if (evencount && reseti) listBox2.Items.Add(listBox1.Items[i]);
+                    if (evencount) listBox2.Items.Add(listBox1.Items[i]);
                 }
 
                 if (!evencount) listBox2.Items.Add("Среди 5-ти чисел нет ни одного чётного");
@@ -172,14 +172,14 @@ namespace Lab04_KBIBAS187_3
             }
         }
 
-        private void ToolStripTextBox2_KeyDown(object sender, KeyEventArgs e)
+        private void ToolStripTextBox2_KeyDown(object sender, KeyEventArgs e) //Для ввода через TextBox строк
         {
             if (e.KeyCode == Keys.Enter)
                 if (toolStripTextBox2.TextLength != 0)
                     listBox3.Items.Add(toolStripTextBox2.Text);
         }
 
-        private void ToolStripMenuItem8_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem8_Click(object sender, EventArgs e) //Проверка на последнюю русскую букву
         {
             var str = false;
             foreach (string striItem in listBox3.Items)
@@ -192,7 +192,7 @@ namespace Lab04_KBIBAS187_3
             if (!str) listBox2.Items.Add("Нет таких строк");
         }
 
-        private void ToolStripMenuItem9_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem9_Click(object sender, EventArgs e)  //На чётные удваиваю пробел на нечётные убираю
         {
             if (listBox3.Items.Count >= 2)
             {
@@ -211,7 +211,7 @@ namespace Lab04_KBIBAS187_3
             }
         }
 
-        private void RadioButton6_CheckedChanged(object sender, EventArgs e)
+        private void RadioButton6_CheckedChanged(object sender, EventArgs e) //Событие для переключения Радио
         {
             var radio = (RadioButton) sender;
             switch (radio.Text)
