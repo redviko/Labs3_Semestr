@@ -87,6 +87,7 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "radioButton1";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.RadioButton6_CheckedChanged);
             // 
             // groupBox1
             // 
@@ -101,7 +102,7 @@
             this.groupBox1.Size = new System.Drawing.Size(200, 100);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBox1.Text = "ГрупБох";
             // 
             // radioButton6
             // 
@@ -113,6 +114,7 @@
             this.radioButton6.TabStop = true;
             this.radioButton6.Text = "radioButton6";
             this.radioButton6.UseVisualStyleBackColor = true;
+            this.radioButton6.CheckedChanged += new System.EventHandler(this.RadioButton6_CheckedChanged);
             // 
             // radioButton5
             // 
@@ -124,6 +126,7 @@
             this.radioButton5.TabStop = true;
             this.radioButton5.Text = "radioButton5";
             this.radioButton5.UseVisualStyleBackColor = true;
+            this.radioButton5.CheckedChanged += new System.EventHandler(this.RadioButton6_CheckedChanged);
             // 
             // radioButton4
             // 
@@ -135,6 +138,7 @@
             this.radioButton4.TabStop = true;
             this.radioButton4.Text = "radioButton4";
             this.radioButton4.UseVisualStyleBackColor = true;
+            this.radioButton4.CheckedChanged += new System.EventHandler(this.RadioButton6_CheckedChanged);
             // 
             // radioButton3
             // 
@@ -146,6 +150,7 @@
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "radioButton3";
             this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.RadioButton6_CheckedChanged);
             // 
             // radioButton2
             // 
@@ -157,6 +162,7 @@
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "radioButton2";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.RadioButton6_CheckedChanged);
             // 
             // checkBox1
             // 
@@ -254,7 +260,7 @@
             this.toolStripMenuItem8,
             this.toolStripMenuItem9});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(657, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(657, 48);
             // 
             // listBox2
             // 

@@ -210,5 +210,31 @@ namespace Lab04_KBIBAS187_3
                 listBox2.Items.Add("Не из чего выбирать");
             }
         }
+
+        private void RadioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton radio=(RadioButton)sender;
+            switch (radio.Text)
+            {
+                case "Рамка 1":
+                    FormBorderStyle = FormBorderStyle.None;
+                    break;
+                case "Рамка 2":
+                    FormBorderStyle = FormBorderStyle.Fixed3D;
+                    break;
+                case "Рамка 3":
+                    FormBorderStyle = FormBorderStyle.FixedSingle;
+                    break;
+                case "Рамка 4":
+                    FormBorderStyle = FormBorderStyle.FixedToolWindow;
+                    break;
+                case "Рамка 5":
+                    FormBorderStyle = FormBorderStyle.Sizable;
+                    break;
+                case "Рамка 6":
+                    FormBorderStyle = FormBorderStyle.SizableToolWindow;
+                    break;
+            }
+        }
     }
 }
