@@ -100,12 +100,9 @@ namespace Lab04_KBIBAS187_3
             if (checkBox.Checked)
             {
                 Text = "";
-                //ControlBox = !ControlBox;
             }
             else
             {
-                //if (listBox1.Items != null) listBox1.Items.Remove(listBox1.SelectedIndex);
-                //ControlBox = !ControlBox;
                 Text = "Form1";
             }
         }
@@ -198,20 +195,6 @@ namespace Lab04_KBIBAS187_3
                 {
                     listBox2.Items.Add("Среди 5-ти чисел нет ни одного чётного");
                 }
-
-                //if (evencount)
-                //{
-                //    for (int i = listBox1.Items.Count - 1; i>= listBox1.Items.Count-5; i--)
-                //    {
-                //        listBox2.Items.Add(listBox1.Items[i]);
-                //    }
-
-                //    //listBox2.Items.Add()
-                
-                //else
-                //{
-                //    listBox2.Items.Add("Среди последних 5-ти нет блин чётных чисел.");
-                //}
             }
             else
             {
@@ -232,13 +215,43 @@ namespace Lab04_KBIBAS187_3
 
         private void ToolStripMenuItem8_Click(object sender, EventArgs e)
         {
-            List<String> sList = new List<string>();
-            foreach (String item in listBox3.Items)
+            Boolean str = false;
+            foreach (String striItem in listBox3.Items)
             {
-                if (item[item.Length]==Char.I)
+                if (striItem.ToUpper()[striItem.Length-1] >= 'А' && striItem.ToUpper()[striItem.Length - 1] <= 'Я')
                 {
-                    
+                    listBox2.Items.Add(striItem);
+                    str = true;
                 }
+            }
+
+            if (!str)
+            {
+                listBox2.Items.Add("Нет таких строк");
+            }
+        }
+
+        private void ToolStripMenuItem9_Click(object sender, EventArgs e)
+        {
+            if (listBox3.Items.Count >=2)
+            {
+                for (int i = 1; i < listBox3.Items.Count; i=+2)
+                {
+                   listBox2.Items.Add(listBox3.Items[i].ToString().Replace(" ", "  "));
+                }
+
+                for (int i = 0; i < listBox3.Items.Count; i+=2)
+                {
+                   listBox2.Items.Add (listBox3.Items[i].ToString().Replace(" ", ""));
+                }
+            }
+            else if (listBox3.Items.Count==1)
+            {
+                listBox2.Items.Add(listBox3.Items[0].ToString().Replace(" ", ""));
+            }
+            else
+            {
+                listBox2.Items.Add("Не из чего выбирать");
             }
         }
     }

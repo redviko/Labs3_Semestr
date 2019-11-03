@@ -292,6 +292,7 @@
             this.toolStripMenuItem9.Size = new System.Drawing.Size(656, 22);
             this.toolStripMenuItem9.Text = "текст, полученный после удаления пробелов из нечетных строк и удвоения пробелов в" +
     " четных строчках;";
+            this.toolStripMenuItem9.Click += new System.EventHandler(this.ToolStripMenuItem9_Click);
             // 
             // Form1
             // 
