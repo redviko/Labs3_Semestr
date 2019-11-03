@@ -196,10 +196,11 @@ namespace Lab04_KBIBAS187_3
         {
             if (listBox3.Items.Count >= 2)
             {
-                for (var i = 1; i < listBox3.Items.Count; i = +2)
-                    listBox2.Items.Add(listBox3.Items[i].ToString().Replace(" ", "  "));
                 for (var i = 0; i < listBox3.Items.Count; i += 2)
                     listBox2.Items.Add(listBox3.Items[i].ToString().Replace(" ", ""));
+                for (var i = 1; i < listBox3.Items.Count; i +=2)
+                    listBox2.Items.Add(listBox3.Items[i].ToString().Replace(" ", "  "));
+               
             }
             else if (listBox3.Items.Count == 1)
             {
