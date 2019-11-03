@@ -213,7 +213,7 @@ namespace Lab04_KBIBAS187_3
 
         private void RadioButton6_CheckedChanged(object sender, EventArgs e)
         {
-            RadioButton radio=(RadioButton)sender;
+            var radio = (RadioButton) sender;
             switch (radio.Text)
             {
                 case "Рамка 1":
