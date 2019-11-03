@@ -90,15 +90,8 @@ namespace Lab04_KBIBAS187_3
 
         private void CheckBox2_CheckChanged(object sender, EventArgs e)
         {
-            CheckBox checkBox = sender as CheckBox;
-            if (checkBox.Checked)
-            {
-                ControlBox = !ControlBox;
-            }
-            else
-            {
-                ControlBox = !ControlBox;
-            }
+            //CheckBox checkBox = sender as CheckBox;
+            ControlBox = !ControlBox;
         }
 
         private void CheckBox1_CheckChanged(object sender, EventArgs e)
@@ -111,7 +104,7 @@ namespace Lab04_KBIBAS187_3
             }
             else
             {
-                if (listBox1.Items != null) listBox1.Items.Remove(listBox1.SelectedIndex);
+                //if (listBox1.Items != null) listBox1.Items.Remove(listBox1.SelectedIndex);
                 //ControlBox = !ControlBox;
                 Text = "Form1";
             }
@@ -179,47 +172,73 @@ namespace Lab04_KBIBAS187_3
         {
             Int32 integer;
             Boolean evencount = false;
-            Int32 Countfor = 5;
+            Boolean reseti = false;
             if (listBox1.Items.Count >= 5)
             {
-                for (int i = listBox1.Items.Count - 1; i >= 0; i--)
+                for (int i = listBox1.Items.Count - 1; i>=listBox1.Items.Count-5; i--)
                 {
                     int.TryParse(listBox1.Items[i].ToString(),out integer);
-                    if (integer % 2 == 0)
+                    if (integer % 2 == 0&&!evencount)
                     {
                         evencount = true;
                     }
 
-                    Countfor--;
-                    if (Countfor == 0 || evencount)
+                    if (evencount&&!reseti)
                     {
-                        break;
+                        i = listBox1.Items.Count - 1;
+                        reseti = true;
                     }
-                }
-
-                if (evencount)
-                {
-                    Countfor = 5;
-                    for (int i = listBox1.Items.Count - 1; i >= 0; i--)
+                    if (evencount&&reseti)
                     {
                         listBox2.Items.Add(listBox1.Items[i]);
-                        Countfor--;
-                        if (Countfor == 0)
-                        {
-                            break;
-                        }
                     }
+                }
 
-                    //listBox2.Items.Add()
-                }
-                else
+                if (!evencount)
                 {
-                    listBox2.Items.Add("Среди последних 5-ти нет блин чётных чисел.");
+                    listBox2.Items.Add("Среди 5-ти чисел нет ни одного чётного");
                 }
+
+                //if (evencount)
+                //{
+                //    for (int i = listBox1.Items.Count - 1; i>= listBox1.Items.Count-5; i--)
+                //    {
+                //        listBox2.Items.Add(listBox1.Items[i]);
+                //    }
+
+                //    //listBox2.Items.Add()
+                
+                //else
+                //{
+                //    listBox2.Items.Add("Среди последних 5-ти нет блин чётных чисел.");
+                //}
             }
             else
             {
                 listBox2.Items.Add("Не хватает чисел.");
+            }
+        }
+
+        private void ToolStripTextBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode==Keys.Enter)
+            {
+                if (toolStripTextBox2.TextLength!=0)
+                {
+                    listBox3.Items.Add(toolStripTextBox2.Text);
+                }
+            }
+        }
+
+        private void ToolStripMenuItem8_Click(object sender, EventArgs e)
+        {
+            List<String> sList = new List<string>();
+            foreach (String item in listBox3.Items)
+            {
+                if (item[item.Length]==Char.I)
+                {
+                    
+                }
             }
         }
     }
