@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using static System.IO.File;
 
 namespace Lab05_KBIBAS187_3
 {
@@ -21,8 +22,62 @@ namespace Lab05_KBIBAS187_3
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            String[] strings = File.ReadAllText(saveFileDialog1.FileName)
+            Boolean digits = false;
+            //Int32[] indexes = 0;
+            //string path = listBox1.SelectedItem.ToString().Replace("\\\\","\\");
+            String[] strings = ReadAllText(File.ReadAllText(path)) // Здесь будет код с ListBox
                 .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < strings.Length; i++)
+            {
+                if (i == (i) + 2 || i == 0)
+                {
+                    WriteAllText(saveFileDialog1.FileName, strings[i]);
+
+                }
+                if (strings[i].Length > 0)
+                {
+                    using (TextWriter writer = File.CreateText(saveFileDialog1.FileName))
+                    {
+                        writer.WriteLine(strings[i]);
+                    }
+                }
+
+                foreach (char c in strings[i])
+                {
+                    if (Char.IsDigit(c))
+                    {
+                        digits = true;
+                    }
+                }
+
+                if (!digits)
+                {
+                    using (TextWriter writer= CreateText(saveFileDialog1.FileName))
+                    {
+                        writer.WriteLine(strings[i]);
+                    }
+                }
+            }
+            //foreach (string s in strings)
+            //{
+                
+            //    foreach (char c in s)
+            //    {
+            //        if (Char.IsDigit(c))
+            //        {
+            //            digits = true;
+            //        }
+            //    }
+
+            //    if (!digits)
+            //    {
+            //        using (TextWriter writer = File.CreateText(saveFileDialog1.FileName))
+            //        {
+            //            writer.WriteLine(s);
+            //        }
+            //        //File.OpenWrite(saveFileDialog1.FileName);
+            //    }
+            //}
 
             MessageBox.Show($"Файл сохранён");
         }
@@ -35,7 +90,7 @@ namespace Lab05_KBIBAS187_3
             }
 
             string filename = openFileDialog1.FileName;
-            string filetext = System.IO.File.ReadAllText(filename);
+            string filetext = ReadAllText(filename);
             MessageBox.Show($"Файл прочитан");
         }
 
