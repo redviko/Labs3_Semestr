@@ -122,5 +122,47 @@ namespace Lab05_KBIBAS187_3
                 MessageBox.Show($"Строк в файле:{pathStrings[i].Length}\nКоличество символов в файле:{count}\nКоличество символов в последней строке{strings[strings.Length-1].Length}");
             }
         }
+
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog()== DialogResult.Cancel)
+            {
+                return;
+            }
+            if (saveFileDialog1.ShowDialog()== DialogResult.Cancel)
+            {
+                return;
+            }
+
+            string path = openFileDialog1.FileName;
+            path = path.Replace("\\", "/");
+            string[] strings = ReadAllText(path).Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string s in strings)
+            {
+                listBox1.Items.Add(s);
+            }
+
+            if (listBox1.SelectedItems != null)
+                foreach (string s in listBox1.SelectedItems)
+                {
+                    AppendAllText(saveFileDialog1.FileName, s);
+                }
+
+            var sortered= strings.OrderBy(a => a.First());
+            if (sortered.Count()!=0)
+            {
+                foreach (string s in sortered)
+                {
+                    AppendAllText(saveFileDialog1.FileName,s);
+                }
+            }
+            //for (var i = strings.Length - 1; i >= 0; i--)
+            //{
+            //    AppendAllText(saveFileDialog1.FileName,strings[i]+"\r\n");
+            //} 
+
+            //listBox1.Items.Clear();
+
+        }
     }
 }
