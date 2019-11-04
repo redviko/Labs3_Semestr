@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using static System.IO.File;
 
@@ -27,39 +28,52 @@ namespace Lab05_KBIBAS187_3
             {
                 return;
             }
+            string[] path=new string[10];
             Boolean digits = false;
-            if (listBox1.SelectedItem==null)
+            if (listBox1.SelectedItems==null)
             {
                 return;
             }
-            string path = listBox1.SelectedItem.ToString();
-            path=path.Replace("\\", "/");
-            String[] strings = ReadAllText(path) // Здесь будет код с ListBox
-                .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < strings.Length; i++)
+            for (int i = 0; i < listBox1.SelectedItems.Count; i++)
             {
-                if (i == (i) + 2 || i == 0)
+                path[i] = listBox1.SelectedItems[i].ToString();
+                path[i]=path[i].Replace("\\", "/");
+                String[] strings = ReadAllText(path[i]) // Здесь будет код с ListBox
+                    .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int j = 0; j < strings.Length; j++)
                 {
-                    AppendAllText(saveFileDialog1.FileName,strings[i]+"\r\n");
-                }
-                if (strings[i].Length > 0)
-                {
-                    AppendAllText(saveFileDialog1.FileName, strings[i]+"\r\n");
-                }
-
-                foreach (char c in strings[i])
-                {
-                    if (Char.IsDigit(c))
+                    if ((j == (j) + 2 || j == 0) && !digits)
                     {
-                        digits = true;
+                        AppendAllText(saveFileDialog1.FileName, strings[j] + "\r\n");
+                        digits = !digits;
                     }
-                }
+                    if (strings[j].Length > 0 && !digits)
+                    {
+                        AppendAllText(saveFileDialog1.FileName, strings[j] + "\r\n");
+                        digits = !digits;
+                    }
 
-                if (!digits)
-                {
-                    AppendAllText(saveFileDialog1.FileName,strings[i]+"\r\n");
+
+                    if (!digits)
+                    {
+                        foreach (char c in strings[j])
+                        {
+                            if (Char.IsDigit(c))
+                            {
+                                digits = true;
+                            }
+                        }
+                        if (!digits)
+                        {
+                            AppendAllText(saveFileDialog1.FileName, strings[j] + "\r\n");
+                        }
+                    }
+
+                    digits = false;
                 }
             }
+
+            
             MessageBox.Show($"Файл сохранён");
         }
 
@@ -88,6 +102,25 @@ namespace Lab05_KBIBAS187_3
                 listBox1.Items.Add(s);
             }
             MessageBox.Show($"В листбок помещены названия файлов с каталога");
+        }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            string[] pathStrings=new string[10];
+            Int32 count = 0;
+            for (var i = 0; i < listBox1.SelectedItems.Count; i++)
+            {
+                pathStrings[i] = listBox1.SelectedItems[i].ToString();
+                pathStrings[i] = pathStrings[i].Replace("\\", "/");
+                String[] strings = ReadAllText(pathStrings[i]).Split(new []{'\r','\n'},StringSplitOptions.RemoveEmptyEntries);
+                count = 0;
+                foreach (var s in strings)
+                {
+                    count += s.Length;
+                }
+
+                MessageBox.Show($"Строк в файле:{pathStrings[i].Length}\nКоличество символов в файле:{count}\nКоличество символов в последней строке{strings[strings.Length-1].Length}");
+            }
         }
     }
 }
