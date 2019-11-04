@@ -22,24 +22,29 @@ namespace Lab05_KBIBAS187_3
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            Boolean digits = false;
             //Int32[] indexes = 0;
-            //string path = listBox1.SelectedItem.ToString().Replace("\\\\","\\");
-            String[] strings = ReadAllText(File.ReadAllText(path)) // Здесь будет код с ListBox
+            if (saveFileDialog1.ShowDialog()== DialogResult.Cancel)
+            {
+                return;
+            }
+            Boolean digits = false;
+            if (listBox1.SelectedItem==null)
+            {
+                return;
+            }
+            string path = listBox1.SelectedItem.ToString();
+            path=path.Replace("\\", "/");
+            String[] strings = ReadAllText(path) // Здесь будет код с ListBox
                 .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < strings.Length; i++)
             {
                 if (i == (i) + 2 || i == 0)
                 {
-                    WriteAllText(saveFileDialog1.FileName, strings[i]);
-
+                    AppendAllText(saveFileDialog1.FileName,strings[i]+"\r\n");
                 }
                 if (strings[i].Length > 0)
                 {
-                    using (TextWriter writer = File.CreateText(saveFileDialog1.FileName))
-                    {
-                        writer.WriteLine(strings[i]);
-                    }
+                    AppendAllText(saveFileDialog1.FileName, strings[i]+"\r\n");
                 }
 
                 foreach (char c in strings[i])
@@ -52,33 +57,9 @@ namespace Lab05_KBIBAS187_3
 
                 if (!digits)
                 {
-                    using (TextWriter writer= CreateText(saveFileDialog1.FileName))
-                    {
-                        writer.WriteLine(strings[i]);
-                    }
+                    AppendAllText(saveFileDialog1.FileName,strings[i]+"\r\n");
                 }
             }
-            //foreach (string s in strings)
-            //{
-                
-            //    foreach (char c in s)
-            //    {
-            //        if (Char.IsDigit(c))
-            //        {
-            //            digits = true;
-            //        }
-            //    }
-
-            //    if (!digits)
-            //    {
-            //        using (TextWriter writer = File.CreateText(saveFileDialog1.FileName))
-            //        {
-            //            writer.WriteLine(s);
-            //        }
-            //        //File.OpenWrite(saveFileDialog1.FileName);
-            //    }
-            //}
-
             MessageBox.Show($"Файл сохранён");
         }
 
