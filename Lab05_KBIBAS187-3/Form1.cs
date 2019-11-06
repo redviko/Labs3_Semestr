@@ -21,23 +21,38 @@ namespace Lab05_KBIBAS187_3
             InitializeComponent();
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void Button3_Click(object sender, EventArgs e)
         {
-            //Int32[] indexes = 0;
-            if (saveFileDialog1.ShowDialog()== DialogResult.Cancel)
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
             {
                 return;
             }
-            string[] path=new string[10];
+
+            string catalogname = folderBrowserDialog1.SelectedPath;
+            foreach (string s in Directory.GetFiles(catalogname))
+            {
+                listBox1.Items.Add(s);
+            }
+            MessageBox.Show($"В листбок помещены названия файлов с каталога");
+        }
+
+        private void ToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            //Int32[] indexes = 0;
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+            {
+                return;
+            }
+            string[] path = new string[10];
             Boolean digits = false;
-            if (listBox1.SelectedItems==null)
+            if (listBox1.SelectedItems == null)
             {
                 return;
             }
             for (int i = 0; i < listBox1.SelectedItems.Count; i++)
             {
                 path[i] = listBox1.SelectedItems[i].ToString();
-                path[i]=path[i].Replace("\\", "/");
+                path[i] = path[i].Replace("\\", "/");
                 String[] strings = ReadAllText(path[i]) // Здесь будет код с ListBox
                     .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int j = 0; j < strings.Length; j++)
@@ -47,6 +62,7 @@ namespace Lab05_KBIBAS187_3
                         AppendAllText(saveFileDialog1.FileName, strings[j] + "\r\n");
                         digits = !digits;
                     }
+
                     if (strings[j].Length > 0 && !digits)
                     {
                         AppendAllText(saveFileDialog1.FileName, strings[j] + "\r\n");
@@ -73,96 +89,69 @@ namespace Lab05_KBIBAS187_3
                 }
             }
 
-            
+
             MessageBox.Show($"Файл сохранён");
         }
 
-        private void Button2_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
-            {
-                return;
-            }
-
-            string filename = openFileDialog1.FileName;
-            string filetext = ReadAllText(filename);
-            MessageBox.Show($"Файл прочитан");
-        }
-
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
-            {
-                return;
-            }
-
-            string catalogname = folderBrowserDialog1.SelectedPath;
-            foreach (string s in Directory.GetFiles(catalogname))
-            {
-                listBox1.Items.Add(s);
-            }
-            MessageBox.Show($"В листбок помещены названия файлов с каталога");
-        }
-
-        private void Button4_Click(object sender, EventArgs e)
-        {
-            string[] pathStrings=new string[10];
+            string[] pathStrings = new string[10];
             Int32 count = 0;
             for (var i = 0; i < listBox1.SelectedItems.Count; i++)
             {
                 pathStrings[i] = listBox1.SelectedItems[i].ToString();
                 pathStrings[i] = pathStrings[i].Replace("\\", "/");
-                String[] strings = ReadAllText(pathStrings[i]).Split(new []{'\r','\n'},StringSplitOptions.RemoveEmptyEntries);
+                String[] strings = ReadAllText(pathStrings[i]).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 count = 0;
                 foreach (var s in strings)
                 {
                     count += s.Length;
                 }
 
-                MessageBox.Show($"Строк в файле:{pathStrings[i].Length}\nКоличество символов в файле:{count}\nКоличество символов в последней строке{strings[strings.Length-1].Length}");
+                MessageBox.Show($"Строк в файле:{pathStrings[i].Length}\nКоличество символов в файле:{count}\nКоличество символов в последней строке{strings[strings.Length - 1].Length}");
             }
         }
 
-        private void Button5_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem4_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog()== DialogResult.Cancel)
+            if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
             {
                 return;
             }
-            if (saveFileDialog1.ShowDialog()== DialogResult.Cancel)
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
             {
                 return;
             }
 
             string path = openFileDialog1.FileName;
             path = path.Replace("\\", "/");
-            string[] strings = ReadAllText(path).Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string s in strings)
+            if (ReadAllText(path).Length != 0)
             {
-                listBox1.Items.Add(s);
-            }
-
-            if (listBox1.SelectedItems != null)
-                foreach (string s in listBox1.SelectedItems)
+                string[] strings = ReadAllText(path).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string s in strings)
                 {
-                    AppendAllText(saveFileDialog1.FileName, s);
+                    listBox1.Items.Add(s);
                 }
 
-            var sortered= strings.OrderBy(a => a.First());
-            if (sortered.Count()!=0)
-            {
-                foreach (string s in sortered)
+                if (listBox1.SelectedItems != null)
+                    foreach (string s in listBox1.SelectedItems)
+                    {
+                        AppendAllText(saveFileDialog1.FileName, s);
+                    }
+
+                var sortered = strings.OrderBy(a => a.First());
+                if (sortered.Count() != 0)
                 {
-                    AppendAllText(saveFileDialog1.FileName,s);
+                    foreach (string s in sortered)
+                    {
+                        AppendAllText(saveFileDialog1.FileName, s + "\r\n");
+                    }
                 }
             }
-            //for (var i = strings.Length - 1; i >= 0; i--)
-            //{
-            //    AppendAllText(saveFileDialog1.FileName,strings[i]+"\r\n");
-            //} 
-
-            //listBox1.Items.Clear();
-
+            else
+            {
+                MessageBox.Show("Ахахап,неловко получилось.");
+            }
         }
     }
 }
