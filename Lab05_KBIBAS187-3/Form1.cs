@@ -25,15 +25,25 @@ namespace Lab05_KBIBAS187_3
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
             {
+                MessageBox.Show("Действие отменено");
                 return;
             }
 
-            string catalogname = folderBrowserDialog1.SelectedPath;
-            foreach (string s in Directory.GetFiles(catalogname))
+            Boolean isempty = true;
+            foreach (string s in Directory.GetFiles(folderBrowserDialog1.SelectedPath, "*.txt"))
             {
+                isempty = false;
                 listBox1.Items.Add(s);
             }
-            MessageBox.Show($"В листбок помещены названия файлов с каталога");
+
+            if (isempty)
+            {
+                MessageBox.Show("Нет .txt файлов в каталоге");
+            }
+            else
+            {
+                MessageBox.Show($"В листбок помещены названия файлов с каталога");
+            }
         }
 
         private void ToolStripMenuItem2_Click(object sender, EventArgs e)
@@ -41,36 +51,40 @@ namespace Lab05_KBIBAS187_3
             //Int32[] indexes = 0;
             if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
             {
+                MessageBox.Show("Действие отменено");
                 return;
             }
-            string[] path = new string[10];
+
+            string[] path = new string[listBox1.SelectedItems.Count];
             Boolean digits = false;
-            if (listBox1.SelectedItems == null)
+            if (listBox1.SelectedItems.Count == 0)
             {
+                MessageBox.Show("Выберите что-то");
                 return;
             }
+
             for (int i = 0; i < listBox1.SelectedItems.Count; i++)
             {
                 path[i] = listBox1.SelectedItems[i].ToString();
                 path[i] = path[i].Replace("\\", "/");
-                String[] strings = ReadAllText(path[i]) // Здесь будет код с ListBox
-                    .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                String[] strings = ReadAllText(path[i]) // Разделил строки по признаку переноса
+                    .Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
                 for (int j = 0; j < strings.Length; j++)
                 {
-                    if ((j == (j) + 2 || j == 0) && !digits)
+                    if ((j == (j) + 2 || j == 0) && !digits) //Абсолютная хуета(
                     {
                         AppendAllText(saveFileDialog1.FileName, strings[j] + "\r\n");
                         digits = !digits;
                     }
 
-                    if (strings[j].Length > 0 && !digits)
+                    if (strings[j].Length > 0 && !digits) //Запись всех строк, кроме пустых
                     {
                         AppendAllText(saveFileDialog1.FileName, strings[j] + "\r\n");
                         digits = !digits;
                     }
 
 
-                    if (!digits)
+                    if (!digits) //Вывод строки в которой нет чисел( с проверкой)
                     {
                         foreach (char c in strings[j])
                         {
@@ -79,6 +93,7 @@ namespace Lab05_KBIBAS187_3
                                 digits = true;
                             }
                         }
+
                         if (!digits)
                         {
                             AppendAllText(saveFileDialog1.FileName, strings[j] + "\r\n");
@@ -95,20 +110,22 @@ namespace Lab05_KBIBAS187_3
 
         private void ToolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            string[] pathStrings = new string[10];
+            string[] pathStrings = new string[listBox1.SelectedItems.Count];
             Int32 count = 0;
             for (var i = 0; i < listBox1.SelectedItems.Count; i++)
             {
                 pathStrings[i] = listBox1.SelectedItems[i].ToString();
                 pathStrings[i] = pathStrings[i].Replace("\\", "/");
-                String[] strings = ReadAllText(pathStrings[i]).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                String[] strings = ReadAllText(pathStrings[i])
+                    .Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
                 count = 0;
                 foreach (var s in strings)
                 {
                     count += s.Length;
                 }
 
-                MessageBox.Show($"Строк в файле:{pathStrings[i].Length}\nКоличество символов в файле:{count}\nКоличество символов в последней строке{strings[strings.Length - 1].Length}");
+                MessageBox.Show(
+                    $"Строк в файле:{pathStrings[i].Length}\nКоличество символов в файле:{count}\nКоличество символов в последней строке{strings[strings.Length - 1].Length}");
             }
         }
 
@@ -116,10 +133,13 @@ namespace Lab05_KBIBAS187_3
         {
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
             {
+                MessageBox.Show($"Действие отменено");
                 return;
             }
+
             if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
             {
+                MessageBox.Show("Действие отменено");
                 return;
             }
 
@@ -127,7 +147,7 @@ namespace Lab05_KBIBAS187_3
             path = path.Replace("\\", "/");
             if (ReadAllText(path).Length != 0)
             {
-                string[] strings = ReadAllText(path).Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] strings = ReadAllText(path).Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string s in strings)
                 {
                     listBox1.Items.Add(s);
@@ -151,6 +171,115 @@ namespace Lab05_KBIBAS187_3
             else
             {
                 MessageBox.Show("Ахахап,неловко получилось.");
+            }
+        }
+
+        private void ToolStripMenuItem5_Click(object sender, EventArgs e) //Вывод нечётных строк
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+            {
+                MessageBox.Show("Дейстивие отменено");
+                return;
+            }
+
+            if (listBox1.SelectedItems.Count != 0)
+            {
+                Boolean isempty = true;
+                string[] pathStrings = new string[listBox1.SelectedItems.Count];
+                foreach (string pathString in pathStrings)
+                {
+                    string[] strings = ReadAllText(pathString.Replace("\\", "/"))
+                        .Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+                    if (strings.Length != 0)
+                    {
+                        isempty = false;
+                        for (var i = 0; i < strings.Length; i += 2)
+                        {
+                            AppendAllText(saveFileDialog1.FileName, strings[i]+"\r\n");
+                        }
+                    }
+                }
+
+
+
+                if (isempty)
+                {
+                    MessageBox.Show("Файлы пусты");
+                }
+                else
+                {
+                    MessageBox.Show("Добавление строк прошло успешно");
+                }
+            }
+
+            MessageBox.Show("Выберите что-то");
+        }
+
+        private void ToolStripMenuItem6_Click(object sender, EventArgs e) //Вывод строки без цифер
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+            {
+                MessageBox.Show("Дейстивие отменено");
+                return;
+            }
+
+            if (listBox1.SelectedItems.Count != 0)
+            {
+                Boolean isempty = true;
+                Boolean isdigit = false;
+                string[] pathStrings = new string[listBox1.SelectedItems.Count];
+                for (var i = 0; i < listBox1.SelectedItems.Count; i++)
+                {
+                    if (File.Exists(listBox1.SelectedItems[i].ToString()))
+                    {
+                        pathStrings[i] = listBox1.SelectedItems[i].ToString();
+                    }
+                }
+
+                if (pathStrings.Length==0)
+                {
+                    MessageBox.Show("Файлы которые вы выбрали вы сами и удалили, вы такой молодец. Спасибо за удаленные файлы, только не удаляйте мой рабочий стол, спасибо.");
+                    return;
+                }
+                foreach (string pathString in pathStrings)
+                {
+                    string[] strings = ReadAllText(pathString,Encoding.Default)
+                        .Split(new[] {'\r', '\n',' '}, StringSplitOptions.RemoveEmptyEntries);
+                    if (strings.Length != 0)
+                    {
+                        isempty = false;
+                        foreach (string s in strings)
+                        {
+                            isdigit = false;
+                            foreach (char c in s)
+                            {
+                                if (Char.IsDigit(c))
+                                {
+                                    isdigit = true;
+                                    break;
+                                }
+                            }
+
+                            if (!isdigit)
+                            {
+                                AppendAllText(saveFileDialog1.FileName,s+"\r\n");
+                            }
+                        }
+                    }
+                }
+
+                if (isdigit)
+                {
+                    MessageBox.Show("Нет строк которых не было бы цифр");
+                }
+                if (isempty)
+                {
+                    MessageBox.Show("Файлы пусты");
+                }
+                else
+                {
+                    MessageBox.Show("Добавление строк прошло успешно");
+                }
             }
         }
     }
