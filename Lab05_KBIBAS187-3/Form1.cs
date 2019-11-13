@@ -186,6 +186,19 @@ namespace Lab05_KBIBAS187_3
             {
                 Boolean isempty = true;
                 string[] pathStrings = new string[listBox1.SelectedItems.Count];
+                for (var i = 0; i < listBox1.SelectedItems.Count; i++)
+                {
+                    if (Exists(listBox1.SelectedItems[i].ToString()))
+                    {
+                        pathStrings[i] = listBox1.SelectedItems[i].ToString();
+                    }
+                }
+                
+                if (pathStrings.Length==0)
+                {
+                    MessageBox.Show("Ой, а вы файлы удалили, ну спасибо. Только не форматируйте мне диск пожалуйста");
+                    return;
+                }
                 foreach (string pathString in pathStrings)
                 {
                     string[] strings = ReadAllText(pathString.Replace("\\", "/"))
@@ -199,8 +212,6 @@ namespace Lab05_KBIBAS187_3
                         }
                     }
                 }
-
-
 
                 if (isempty)
                 {
