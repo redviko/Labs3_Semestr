@@ -50,7 +50,7 @@ namespace Lab05_KBIBAS187_3
         {
             //Int32[] indexes = 0;
             if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
-            {
+            { 
                 MessageBox.Show("Действие отменено");
                 return;
             }
@@ -106,6 +106,21 @@ namespace Lab05_KBIBAS187_3
 
 
             MessageBox.Show($"Файл сохранён");
+        }
+
+        private bool CheckTheFiles(ref string[] pathStrings)
+        {
+            bool flag = false;
+            for (var i = 0; i < listBox1.SelectedItems.Count; i++)
+            {
+                if (Exists(listBox1.SelectedItems[i].ToString()))
+                {
+                    pathStrings[i] = listBox1.SelectedItems[i].ToString();
+                    flag = true;
+                }
+            }
+            return flag;
+
         }
 
         private void ToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -186,17 +201,9 @@ namespace Lab05_KBIBAS187_3
             {
                 Boolean isempty = true;
                 string[] pathStrings = new string[listBox1.SelectedItems.Count];
-                for (var i = 0; i < listBox1.SelectedItems.Count; i++)
+                if (!CheckTheFiles(ref pathStrings))
                 {
-                    if (Exists(listBox1.SelectedItems[i].ToString()))
-                    {
-                        pathStrings[i] = listBox1.SelectedItems[i].ToString();
-                    }
-                }
-                
-                if (pathStrings.Length==0)
-                {
-                    MessageBox.Show("Ой, а вы файлы удалили, ну спасибо. Только не форматируйте мне диск пожалуйста");
+                    MessageBox.Show("Ой, а вы файлы удалили, спасибо. Можно ненада форматировать мой диск?");
                     return;
                 }
                 foreach (string pathString in pathStrings)
@@ -239,23 +246,17 @@ namespace Lab05_KBIBAS187_3
                 Boolean isempty = true;
                 Boolean isdigit = false;
                 string[] pathStrings = new string[listBox1.SelectedItems.Count];
-                for (var i = 0; i < listBox1.SelectedItems.Count; i++)
+                if (!CheckTheFiles(ref pathStrings))
                 {
-                    if (File.Exists(listBox1.SelectedItems[i].ToString()))
-                    {
-                        pathStrings[i] = listBox1.SelectedItems[i].ToString();
-                    }
-                }
-
-                if (pathStrings.Length==0)
-                {
-                    MessageBox.Show("Файлы которые вы выбрали вы сами и удалили, вы такой молодец. Спасибо за удаленные файлы, только не удаляйте мой рабочий стол, спасибо.");
+                    MessageBox.Show(
+                        "Файлы которые вы выбрали вы сами и удалили, вы такой молодец. Спасибо за удаленные файлы, только не удаляйте мой рабочий стол, спасибо.");
                     return;
                 }
+
                 foreach (string pathString in pathStrings)
                 {
-                    string[] strings = ReadAllText(pathString,Encoding.Default)
-                        .Split(new[] {'\r', '\n',' '}, StringSplitOptions.RemoveEmptyEntries);
+                    string[] strings = ReadAllText(pathString, Encoding.Default)
+                        .Split(new[] {'\r', '\n', ' '}, StringSplitOptions.RemoveEmptyEntries);
                     if (strings.Length != 0)
                     {
                         isempty = false;
@@ -273,7 +274,7 @@ namespace Lab05_KBIBAS187_3
 
                             if (!isdigit)
                             {
-                                AppendAllText(saveFileDialog1.FileName,s+"\r\n");
+                                AppendAllText(saveFileDialog1.FileName, s + "\r\n");
                             }
                         }
                     }
@@ -283,6 +284,7 @@ namespace Lab05_KBIBAS187_3
                 {
                     MessageBox.Show("Нет строк которых не было бы цифр");
                 }
+
                 if (isempty)
                 {
                     MessageBox.Show("Файлы пусты");
@@ -291,6 +293,21 @@ namespace Lab05_KBIBAS187_3
                 {
                     MessageBox.Show("Добавление строк прошло успешно");
                 }
+            }
+        }
+
+        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem!=null)
+            {
+                if (!Exists(listBox1.SelectedItem.ToString()))
+                {
+                    listBox1.Items.Remove(listBox1.SelectedItem);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Этого файла уже не существует");
             }
         }
     }
