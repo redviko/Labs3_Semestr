@@ -110,7 +110,9 @@ namespace Lab05_KBIBAS187_3
 
         private bool CheckTheFiles(ref string[] pathStrings)
         {
+            bool delete = false;
             bool flag = false;
+            int[] markInts=new int[listBox1.SelectedItems.Count];
             for (var i = 0; i < listBox1.SelectedItems.Count; i++)
             {
                 if (Exists(listBox1.SelectedItems[i].ToString()))
@@ -118,10 +120,27 @@ namespace Lab05_KBIBAS187_3
                     pathStrings[i] = listBox1.SelectedItems[i].ToString();
                     flag = true;
                 }
+                else
+                {
+                    delete = true;
+                    markInts[i] = int.Parse(listBox1.SelectedItems[i].ToString());
+                }
+            }
+
+            if (delete)
+            {
+                foreach (int markInt in markInts)
+                {
+                    if (markInt!=0)
+                    {
+                        listBox1.Items.RemoveAt(markInt);
+                    }
+                }
             }
             return flag;
 
         }
+
 
         private void ToolStripMenuItem3_Click(object sender, EventArgs e)
         {
@@ -188,6 +207,8 @@ namespace Lab05_KBIBAS187_3
                 MessageBox.Show("Ахахап,неловко получилось.");
             }
         }
+
+
 
         private void ToolStripMenuItem5_Click(object sender, EventArgs e) //Вывод нечётных строк
         {
@@ -296,7 +317,7 @@ namespace Lab05_KBIBAS187_3
             }
         }
 
-        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e) //Проверка файлов при выделении их в ListBox
         {
             if (listBox1.SelectedItem!=null)
             {
@@ -308,6 +329,120 @@ namespace Lab05_KBIBAS187_3
             else
             {
                 MessageBox.Show("Этого файла уже не существует");
+            }
+        }
+
+        private void ToolStripMenuItem7_Click(object sender, EventArgs e) //Вывод всех не пустых строк
+        {
+            if (listBox1.SelectedItems.Count!=0)
+            {
+                if (saveFileDialog1.ShowDialog()== DialogResult.Cancel)
+                {
+                    MessageBox.Show("Действие отменено");
+                    return;
+                }
+                Boolean isempty = true;
+                string[] pathStrings=new string[listBox1.SelectedItems.Count];
+                if (!CheckTheFiles(ref pathStrings))
+                {
+                    MessageBox.Show("Файлы к сожалению удалены");
+                    return;
+                }
+
+                foreach (string pathString in pathStrings)
+                {
+                    string[] strings = ReadAllLines(pathString,Encoding.Default);
+                    if (strings.Length!=0)
+                    {
+                        isempty = false;
+                        AppendAllLines(saveFileDialog1.FileName,strings);
+                    }
+                }
+
+                if (isempty)
+                {
+                    MessageBox.Show("Файлы пусты");
+                }
+                else
+                {
+                    MessageBox.Show("Действие выполнено успешно");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите хоть что-то.");
+            }
+        }
+
+        private void ToolStripMenuItem8_Click(object sender, EventArgs e) //Количество строк в файле
+        {
+            if (listBox1.SelectedItems.Count!=0)
+            {
+                Boolean isemty = true;
+                string[] pathStrings=new string[listBox1.SelectedItems.Count];
+                if (!CheckTheFiles(ref pathStrings))
+                {
+                    MessageBox.Show("Файлы удалены");
+                    return;
+                }
+
+                foreach (string pathString in pathStrings)
+                {
+                    if (ReadAllLines(pathString).Length!=0)
+                    {
+                        isemty = false;
+                        MessageBox.Show($"Количество строк в файле{pathString}\r\n{ReadAllLines(pathString).Length};"); 
+                    }
+                    else
+                    {
+                        MessageBox.Show($"В файле{pathString} нет строк");
+                    }
+                }
+
+                if (isemty)
+                {
+                    MessageBox.Show("Файлы пустые");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите хоть что-то");
+            }
+        }
+
+        private void ToolStripMenuItem9_Click(object sender, EventArgs e) //Вывести количество символов в файлах
+        {
+            if (listBox1.SelectedItems.Count!=0)
+            {
+                Boolean isempty = true;
+                string[] pathStrings=new string[listBox1.SelectedItems.Count];
+                if (!CheckTheFiles(ref pathStrings))
+                {
+                    MessageBox.Show("Файлы удалены");
+                    return;
+                }
+                foreach (string pathString in pathStrings)
+                {
+                    if (ReadAllText(pathString).Length!=0)
+                    {
+                        isempty = false;
+                        MessageBox.Show($"Количество символов в файле{pathString}\r\n{ReadAllText(pathString).Length}"); 
+
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Файл {pathString} пуст");
+                    }
+                }
+
+                if (isempty)
+                {
+                    MessageBox.Show("Файлы пусты");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите хоть что-то");
             }
         }
     }
