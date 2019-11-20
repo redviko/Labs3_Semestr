@@ -445,5 +445,37 @@ namespace Lab05_KBIBAS187_3
                 MessageBox.Show("Выберите хоть что-то");
             }
         }
+
+        private void ToolStripMenuItem10_Click(object sender, EventArgs e) //Количество символов в последней строке
+        {
+            if (listBox1.SelectedItems.Count!=0)
+            {
+                Boolean isempty = true;
+                string[] pathStrings=new string[listBox1.SelectedItems.Count];
+                if (!CheckTheFiles(ref pathStrings))
+                {
+                    MessageBox.Show("Файлы удалены");
+                    return;
+                }
+
+                foreach (string pathString in pathStrings)
+                {
+                    if (ReadAllLines(pathString).Length!=0)
+                    {
+                        isempty = false;
+                        MessageBox.Show($"Количество символов в последней строке: {ReadAllLines(pathString).Last().Length}");
+                    }
+                }
+
+                if (isempty)
+                {
+                    MessageBox.Show("Файлы пусты");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите хоть что-то");
+            }
+        }
     }
 }
