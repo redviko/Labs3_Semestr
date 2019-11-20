@@ -21,6 +21,76 @@ namespace Lab05_KBIBAS187_3
             InitializeComponent();
         }
 
+        private bool ReadTextFromPaths(ref List<string> pathStrings, ref Boolean isempty, ref List<string[]> stringList)
+        {
+
+            if (!CheckTheFiles(ref pathStrings))
+            {
+                return false;
+            }
+
+            foreach (string pathString in pathStrings)
+            {
+                if (ReadAllLines(pathString).Length != 0)
+                {
+                    isempty = false;
+                    stringList.Add(ReadAllLines(pathString));
+                }
+                else
+                {
+                    stringList.Add(new string[] { "0" });
+                }
+            }
+
+            if (isempty)
+            {
+                MessageBox.Show("Файлы пусты");
+                return false;
+            }
+
+            return true;
+        } //Функция проверки
+        private bool CheckTheFiles(ref List<string> pathStrings) //Ещё одна функция проверки
+        {
+            bool ispath = false;
+            bool delete = false;
+            bool flag = false;
+            List<object> deleteList = new List<object>();
+            for (var i = 0; i < listBox1.SelectedItems.Count; i++)
+            {
+                if (listBox1.SelectedItems[i].ToString().Contains("\\"))
+                {
+                    ispath = true;
+                    if (Exists(listBox1.SelectedItems[i].ToString()) && File.ReadAllLines(listBox1.SelectedItems[i].ToString()).Length != 0)
+                    {
+                        pathStrings.Add(listBox1.SelectedItems[i].ToString());
+                        flag = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Файл {listBox1.SelectedItems[i]} пуст");
+                        delete = true;
+                        deleteList.Add(listBox1.SelectedItems[i]);
+                    }
+                }
+            }
+
+            if (!ispath)
+            {
+                MessageBox.Show("В листбоксе нет путей к файлам");
+            }
+            if (delete)
+            {
+                foreach (object o in deleteList)
+                {
+                    listBox1.Items.Remove(o);
+                }
+            }
+            return flag;
+
+        }
+
+
         private void Button3_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.Cancel)
@@ -28,7 +98,7 @@ namespace Lab05_KBIBAS187_3
                 MessageBox.Show("Действие отменено");
                 return;
             }
-
+            listBox1.Items.Clear();
             Boolean isempty = true;
             foreach (string s in Directory.GetFiles(folderBrowserDialog1.SelectedPath, "*.txt"))
             {
@@ -108,38 +178,6 @@ namespace Lab05_KBIBAS187_3
             MessageBox.Show($"Файл сохранён");
         }
 
-        private bool CheckTheFiles(ref string[] pathStrings)
-        {
-            bool delete = false;
-            bool flag = false;
-            int[] markInts=new int[listBox1.SelectedItems.Count];
-            for (var i = 0; i < listBox1.SelectedItems.Count; i++)
-            {
-                if (Exists(listBox1.SelectedItems[i].ToString()))
-                {
-                    pathStrings[i] = listBox1.SelectedItems[i].ToString();
-                    flag = true;
-                }
-                else
-                {
-                    delete = true;
-                    markInts[i] = int.Parse(listBox1.SelectedItems[i].ToString());
-                }
-            }
-
-            if (delete)
-            {
-                foreach (int markInt in markInts)
-                {
-                    if (markInt!=0)
-                    {
-                        listBox1.Items.RemoveAt(markInt);
-                    }
-                }
-            }
-            return flag;
-
-        }
 
 
         private void ToolStripMenuItem3_Click(object sender, EventArgs e)
@@ -221,34 +259,46 @@ namespace Lab05_KBIBAS187_3
             if (listBox1.SelectedItems.Count != 0)
             {
                 Boolean isempty = true;
-                string[] pathStrings = new string[listBox1.SelectedItems.Count];
-                if (!CheckTheFiles(ref pathStrings))
+                List<string> pathStrings=new List<string>();
+                List<string[]> strinliList=new List<string[]>();
+                if (ReadTextFromPaths(ref pathStrings, ref isempty, ref strinliList))
                 {
-                    MessageBox.Show("Ой, а вы файлы удалили, спасибо. Можно ненада форматировать мой диск?");
-                    return;
-                }
-                foreach (string pathString in pathStrings)
-                {
-                    string[] strings = ReadAllText(pathString.Replace("\\", "/"))
-                        .Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-                    if (strings.Length != 0)
+                    foreach (string[] strings in strinliList)
                     {
-                        isempty = false;
-                        for (var i = 0; i < strings.Length; i += 2)
+                        for (int i = 0; i < strings.Length; i+=2)
                         {
-                            AppendAllText(saveFileDialog1.FileName, strings[i]+"\r\n");
+                            AppendAllText(saveFileDialog1.FileName,"\r\n"+strings[i],Encoding.Default);
                         }
                     }
-                }
 
-                if (isempty)
-                {
-                    MessageBox.Show("Файлы пусты");
+                    MessageBox.Show("Действие выполнено");
                 }
-                else
-                {
-                    MessageBox.Show("Добавление строк прошло успешно");
-                }
+                //if (!CheckTheFiles(ref pathStrings))
+                //{
+                //    return;
+                //}
+                //foreach (string pathString in pathStrings)
+                //{
+                //    string[] strings = ReadAllText(pathString.Replace("\\", "/"))
+                //        .Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+                //    if (strings.Length != 0)
+                //    {
+                //        isempty = false;
+                //        for (var i = 0; i < strings.Length; i += 2)
+                //        {
+                //            AppendAllText(saveFileDialog1.FileName, strings[i]+"\r\n");
+                //        }
+                //    }
+                //}
+
+                //if (isempty)
+                //{
+                //    MessageBox.Show("Файлы пусты");
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Добавление строк прошло успешно");
+                //}
             }
 
             MessageBox.Show("Выберите что-то");
@@ -266,21 +316,12 @@ namespace Lab05_KBIBAS187_3
             {
                 Boolean isempty = true;
                 Boolean isdigit = false;
-                string[] pathStrings = new string[listBox1.SelectedItems.Count];
-                if (!CheckTheFiles(ref pathStrings))
+                List<string> pathStrings = new List<string>();
+                List<string[]> stringlList=new List<string[]>();
+                if (ReadTextFromPaths(ref pathStrings, ref isempty, ref stringlList))
                 {
-                    MessageBox.Show(
-                        "Файлы которые вы выбрали вы сами и удалили, вы такой молодец. Спасибо за удаленные файлы, только не удаляйте мой рабочий стол, спасибо.");
-                    return;
-                }
-
-                foreach (string pathString in pathStrings)
-                {
-                    string[] strings = ReadAllText(pathString, Encoding.Default)
-                        .Split(new[] {'\r', '\n', ' '}, StringSplitOptions.RemoveEmptyEntries);
-                    if (strings.Length != 0)
+                    foreach (string[] strings in stringlList)
                     {
-                        isempty = false;
                         foreach (string s in strings)
                         {
                             isdigit = false;
@@ -295,25 +336,63 @@ namespace Lab05_KBIBAS187_3
 
                             if (!isdigit)
                             {
-                                AppendAllText(saveFileDialog1.FileName, s + "\r\n");
+                              
+                                AppendAllText(saveFileDialog1.FileName, "\r\n" + s, Encoding.Default);
                             }
                         }
                     }
                 }
 
-                if (isdigit)
-                {
-                    MessageBox.Show("Нет строк которых не было бы цифр");
-                }
+                MessageBox.Show("Действие выполнено");
+                //if (!CheckTheFiles(ref pathStrings))
+                //{
+                //    return;
+                //}
 
-                if (isempty)
-                {
-                    MessageBox.Show("Файлы пусты");
-                }
-                else
-                {
-                    MessageBox.Show("Добавление строк прошло успешно");
-                }
+                //foreach (string pathString in pathStrings)
+                //{
+                //    string[] strings = ReadAllText(pathString, Encoding.Default)
+                //        .Split(new[] {'\r', '\n', ' '}, StringSplitOptions.RemoveEmptyEntries);
+                //    if (strings.Length != 0)
+                //    {
+                //        isempty = false;
+                //        foreach (string s in strings)
+                //        {
+                //            isdigit = false;
+                //            foreach (char c in s)
+                //            {
+                //                if (Char.IsDigit(c))
+                //                {
+                //                    isdigit = true;
+                //                    break;
+                //                }
+                //            }
+
+                //            if (!isdigit)
+                //            {
+                //                AppendAllText(saveFileDialog1.FileName, s + "\r\n");
+                //            }
+                //        }
+                //    }
+                //}
+
+                //if (isdigit)
+                //{
+                //    MessageBox.Show("Нет строк которых не было бы цифр");
+                //}
+
+                //if (isempty)
+                //{
+                //    MessageBox.Show("Файлы пусты");
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Добавление строк прошло успешно");
+                //}
+            }
+            else
+            {
+                MessageBox.Show("Выберите хоть что-то");
             }
         }
 
@@ -321,88 +400,127 @@ namespace Lab05_KBIBAS187_3
         {
             if (listBox1.SelectedItem!=null)
             {
-                if (!Exists(listBox1.SelectedItem.ToString()))
+                if (listBox1.SelectedItem.ToString().Contains("\\"))
                 {
-                    listBox1.Items.Remove(listBox1.SelectedItem);
+                    if (!Exists(listBox1.SelectedItem.ToString()))
+                    {
+                        listBox1.Items.Remove(listBox1.SelectedItem);
+                        MessageBox.Show("Этотго файла не существует");
+                    } 
                 }
-            }
-            else
-            {
-                MessageBox.Show("Этого файла уже не существует");
             }
         }
 
         private void ToolStripMenuItem7_Click(object sender, EventArgs e) //Вывод всех не пустых строк
         {
+            if (saveFileDialog1.ShowDialog()== DialogResult.Cancel)
+            {
+                MessageBox.Show("Действие отменено");
+                return;
+            }
             if (listBox1.SelectedItems.Count!=0)
             {
-                if (saveFileDialog1.ShowDialog()== DialogResult.Cancel)
-                {
-                    MessageBox.Show("Действие отменено");
-                    return;
-                }
+                List<string> pathStrings=new List<string>();
                 Boolean isempty = true;
-                string[] pathStrings=new string[listBox1.SelectedItems.Count];
-                if (!CheckTheFiles(ref pathStrings))
+                List<string[]> stingList=new List<string[]>();
+                if (ReadTextFromPaths(ref pathStrings,ref isempty,ref stingList))
                 {
-                    MessageBox.Show("Файлы к сожалению удалены");
-                    return;
-                }
-
-                foreach (string pathString in pathStrings)
-                {
-                    string[] strings = ReadAllLines(pathString,Encoding.Default);
-                    if (strings.Length!=0)
+                    foreach (string[] strings in stingList)
                     {
-                        isempty = false;
-                        AppendAllLines(saveFileDialog1.FileName,strings);
+                        foreach (string s in strings)
+                        {
+                            if (s.Length!=0)
+                            {
+                                AppendAllText(saveFileDialog1.FileName,"\r\n"+s);
+                            }
+                        }
                     }
                 }
 
-                if (isempty)
-                {
-                    MessageBox.Show("Файлы пусты");
-                }
-                else
-                {
-                    MessageBox.Show("Действие выполнено успешно");
-                }
+                MessageBox.Show("Действие выполнено");
             }
             else
             {
-                MessageBox.Show("Выберите хоть что-то.");
+                MessageBox.Show("Выберите хоть что-то");
             }
+            //if (listBox1.SelectedItems.Count!=0)
+            //{
+            //    if (saveFileDialog1.ShowDialog()== DialogResult.Cancel)
+            //    {
+            //        MessageBox.Show("Действие отменено");
+            //        return;
+            //    }
+            //    Boolean isempty = true;
+            //    string[] pathStrings=new string[listBox1.SelectedItems.Count];
+            //    if (!CheckTheFiles(ref pathStrings))
+            //    {
+            //        return;
+            //    }
+
+            //    foreach (string pathString in pathStrings)
+            //    {
+            //        string[] strings = ReadAllLines(pathString,Encoding.Default);
+            //        if (strings.Length!=0)
+            //        {
+            //            isempty = false;
+            //            AppendAllLines(saveFileDialog1.FileName,strings);
+            //        }
+            //    }
+
+            //    if (isempty)
+            //    {
+            //        MessageBox.Show("Файлы пусты");
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Действие выполнено успешно");
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Выберите хоть что-то.");
+            //}
         }
 
         private void ToolStripMenuItem8_Click(object sender, EventArgs e) //Количество строк в файле
         {
             if (listBox1.SelectedItems.Count!=0)
             {
-                Boolean isemty = true;
-                string[] pathStrings=new string[listBox1.SelectedItems.Count];
-                if (!CheckTheFiles(ref pathStrings))
-                {
-                    MessageBox.Show("Файлы удалены");
-                    return;
-                }
 
-                foreach (string pathString in pathStrings)
+                Boolean isepmty = true;
+                List<string> pathStrings=new List<string>();
+                List<string[]> strinlList = new List<string[]>();
+                if (ReadTextFromPaths(ref pathStrings,ref isepmty,ref strinlList))
                 {
-                    if (ReadAllLines(pathString).Length!=0)
+                    for (int i = 0; i < pathStrings.Count; i++)
                     {
-                        isemty = false;
-                        MessageBox.Show($"Количество строк в файле{pathString}\r\n{ReadAllLines(pathString).Length};"); 
-                    }
-                    else
-                    {
-                        MessageBox.Show($"В файле{pathString} нет строк");
+                      
+                            MessageBox.Show($"Количество строк в файле{pathStrings[i]}\r\n{strinlList[i].Length}");
+
                     }
                 }
+                //if (!CheckTheFiles(ref pathStrings))
+                //{
+                //    return;
+                //}
 
-                if (isemty)
-                {
-                    MessageBox.Show("Файлы пустые");
-                }
+                //foreach (string pathString in pathStrings)
+                //{
+                //    if (ReadAllLines(pathString).Length!=0)
+                //    {
+                //        isepmty = false;
+                //        MessageBox.Show($"Количество строк в файле{pathString}\r\n{ReadAllLines(pathString).Length};"); 
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show($"В файле{pathString} нет строк");
+                //    }
+                //}
+
+                //if (isepmty)
+                //{
+                //    MessageBox.Show("Файлы пустые");
+                //}
             }
             else
             {
@@ -415,30 +533,42 @@ namespace Lab05_KBIBAS187_3
             if (listBox1.SelectedItems.Count!=0)
             {
                 Boolean isempty = true;
-                string[] pathStrings=new string[listBox1.SelectedItems.Count];
-                if (!CheckTheFiles(ref pathStrings))
+                List<string> pathStrings = new List<string>();
+                List<string[]> stingList = new List<string[]>();
+                int count = 0;
+                if (ReadTextFromPaths(ref pathStrings,ref isempty,ref stingList))
                 {
-                    MessageBox.Show("Файлы удалены");
-                    return;
-                }
-                foreach (string pathString in pathStrings)
-                {
-                    if (ReadAllText(pathString).Length!=0)
+                    for (int i = 0; i < pathStrings.Count; i++)
                     {
-                        isempty = false;
-                        MessageBox.Show($"Количество символов в файле{pathString}\r\n{ReadAllText(pathString).Length}"); 
-
-                    }
-                    else
-                    {
-                        MessageBox.Show($"Файл {pathString} пуст");
+                        for (int j = 0; j < stingList[i].Length; j++)
+                        {
+                            count += stingList[i][j].Length;
+                        }
+                        MessageBox.Show($"В файле {pathStrings[i]} {count} символов");
                     }
                 }
+                //if (!CheckTheFiles(ref pathStrings))
+                //{
+                //    return;
+                //}
+                //foreach (string pathString in pathStrings)
+                //{
+                //    if (ReadAllText(pathString).Length!=0)
+                //    {
+                //        isempty = false;
+                //        MessageBox.Show($"Количество символов в файле{pathString}\r\n{ReadAllText(pathString).Length}"); 
 
-                if (isempty)
-                {
-                    MessageBox.Show("Файлы пусты");
-                }
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show($"Файл {pathString} пуст");
+                //    }
+                //}
+
+                //if (isempty)
+                //{
+                //    MessageBox.Show("Файлы пусты");
+                //}
             }
             else
             {
@@ -446,35 +576,112 @@ namespace Lab05_KBIBAS187_3
             }
         }
 
+
         private void ToolStripMenuItem10_Click(object sender, EventArgs e) //Количество символов в последней строке
         {
             if (listBox1.SelectedItems.Count!=0)
             {
                 Boolean isempty = true;
-                string[] pathStrings=new string[listBox1.SelectedItems.Count];
-                if (!CheckTheFiles(ref pathStrings))
+                List<string> pathStrings = new List<string>();
+                List<string[]> stingList = new List<string[]>();
+                if (ReadTextFromPaths(ref pathStrings,ref isempty,ref stingList))
                 {
-                    MessageBox.Show("Файлы удалены");
-                    return;
-                }
-
-                foreach (string pathString in pathStrings)
-                {
-                    if (ReadAllLines(pathString).Length!=0)
+                    for (int i = 0; i < pathStrings.Count; i++)
                     {
-                        isempty = false;
-                        MessageBox.Show($"Количество символов в последней строке: {ReadAllLines(pathString).Last().Length}");
+                        MessageBox.Show($"Количество символов в последней строке файла {pathStrings[i]} {stingList[i].Last().Length}");
                     }
-                }
 
-                if (isempty)
-                {
-                    MessageBox.Show("Файлы пусты");
+                    MessageBox.Show("Дело сделано");
                 }
+                //if (!CheckTheFiles(ref pathStrings))
+                //{
+                //    return;
+                //}
+
+                //foreach (string pathString in pathStrings)
+                //{
+                //    if (ReadAllLines(pathString).Length!=0)
+                //    {
+                //        isempty = false;
+                //        MessageBox.Show($"Количество символов в последней строке: {ReadAllLines(pathString).Last().Length}");
+                //    }
+                //}
+
+                //if (isempty)
+                //{
+                //    MessageBox.Show("Файлы пусты");
+                //}
             }
             else
             {
                 MessageBox.Show("Выберите хоть что-то");
+            }
+        }
+
+        private void ToolStripMenuItem11_Click(object sender, EventArgs e) //Вывести в обратном порядке
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+            {
+                MessageBox.Show("Действие отменено");
+                return;
+            }
+            if (listBox1.Items.Count!=0)
+            {
+                for (var i = listBox1.Items.Count - 1; i >= 0; i--)
+                {
+                    AppendAllText(saveFileDialog1.FileName,"\r\n"+listBox1.Items[i].ToString(),Encoding.Default);
+                }
+
+                MessageBox.Show("Дело сделано");
+            }
+            else
+            {
+                MessageBox.Show("ЛистБокс пустой");
+            }
+        }
+
+        private void Button1_Click(object sender, EventArgs e) //Вывести содержимое текстового файла в ListBox
+        {
+            if (openFileDialog1.ShowDialog()== DialogResult.Cancel)
+            {
+                MessageBox.Show("Действие отменено");
+                return;
+            }
+            listBox1.Items.Clear();
+            if (ReadAllText(openFileDialog1.FileName).Length!=0)
+            {
+                foreach (string line in ReadAllLines(openFileDialog1.FileName))
+                {
+                    listBox1.Items.Add(line);
+                }
+
+                MessageBox.Show("Все строки успешно добавлены");
+            }
+            else
+            {
+                MessageBox.Show("Милорд, файл пустой");
+            }
+        }
+
+        private void ToolStripMenuItem12_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog()== DialogResult.Cancel)
+            {
+                MessageBox.Show("Действие отменено");
+                return;
+            }
+            if (listBox1.SelectedItems.Count!=0)
+            {
+                foreach (string s in listBox1.SelectedItems)
+                {
+                    AppendAllText(saveFileDialog1.FileName,"\r\n+"+s, Encoding.Default);
+                }
+
+                MessageBox.Show("Действие выполнено");
+            }
+            else
+            {
+                MessageBox.Show("Выведите хоть что-то");
             }
         }
     }

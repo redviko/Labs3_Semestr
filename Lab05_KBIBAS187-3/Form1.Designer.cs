@@ -46,6 +46,10 @@
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,8 +86,8 @@
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "\"Text files(*.txt)|*.txt|All files(*.*)|*.*\"";
-            this.openFileDialog1.Filter = "\"Text files(*.txt)|*.txt|All files(*.*)|*.*\"";
+            this.openFileDialog1.FileName = "Example.txt";
+            this.openFileDialog1.Filter = "txt files (*.txt)|*.txt";
             // 
             // saveFileDialog1
             // 
@@ -184,16 +188,52 @@
             // 
             // toolStripMenuItem4
             // 
+            this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem11,
+            this.toolStripMenuItem12,
+            this.toolStripMenuItem13});
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             this.toolStripMenuItem4.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem4.Text = "Действие 3";
             this.toolStripMenuItem4.Click += new System.EventHandler(this.ToolStripMenuItem4_Click);
+            // 
+            // toolStripMenuItem11
+            // 
+            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(317, 22);
+            this.toolStripMenuItem11.Text = "Вывести строки списка в обратном порядке";
+            this.toolStripMenuItem11.Click += new System.EventHandler(this.ToolStripMenuItem11_Click);
+            // 
+            // toolStripMenuItem12
+            // 
+            this.toolStripMenuItem12.Name = "toolStripMenuItem12";
+            this.toolStripMenuItem12.Size = new System.Drawing.Size(394, 22);
+            this.toolStripMenuItem12.Text = "Переписать в другой текстовый файл выделенные строки";
+            this.toolStripMenuItem12.Click += new System.EventHandler(this.ToolStripMenuItem12_Click);
+            // 
+            // toolStripMenuItem13
+            // 
+            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
+            this.toolStripMenuItem13.Size = new System.Drawing.Size(394, 22);
+            this.toolStripMenuItem13.Text = "Строки отсортированного списка";
+            // 
+            // button1
+            // 
+            this.button1.AutoSize = true;
+            this.button1.Location = new System.Drawing.Point(436, 90);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(264, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Вывести содержимое тескового файла в ListBox";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button3);
@@ -229,6 +269,10 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem12;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
+        private System.Windows.Forms.Button button1;
     }
 }
 
