@@ -119,8 +119,8 @@
             this.toolStripMenuItem3,
             this.toolStripMenuItem4});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(125, 20);
-            this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(70, 20);
+            this.toolStripMenuItem1.Text = "Действия";
             // 
             // toolStripMenuItem2
             // 
@@ -197,7 +197,7 @@
             // toolStripMenuItem11
             // 
             this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(317, 22);
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(394, 22);
             this.toolStripMenuItem11.Text = "Вывести строки списка в обратном порядке";
             this.toolStripMenuItem11.Click += new System.EventHandler(this.ToolStripMenuItem11_Click);
             // 
@@ -213,6 +213,7 @@
             this.toolStripMenuItem13.Name = "toolStripMenuItem13";
             this.toolStripMenuItem13.Size = new System.Drawing.Size(394, 22);
             this.toolStripMenuItem13.Text = "Строки отсортированного списка";
+            this.toolStripMenuItem13.Click += new System.EventHandler(this.ToolStripMenuItem13_Click);
             // 
             // button1
             // 

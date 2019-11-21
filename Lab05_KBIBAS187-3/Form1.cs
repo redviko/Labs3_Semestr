@@ -362,5 +362,29 @@ namespace Lab05_KBIBAS187_3
                 MessageBox.Show("Листбокс пуст");
             }
         }
+
+        private void ToolStripMenuItem13_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+            {
+                MessageBox.Show("Действие отменено");
+                return;
+            }
+
+            if (ItemsCountCheck())
+            {
+                listBox1.Items.Cast<string>().OrderBy(x => x);
+                foreach (string listBox1Item in listBox1.Items)
+                {
+                    AppendAllText(saveFileDialog1.FileName,listBox1Item, Encoding.Default);
+                }
+
+                MessageBox.Show("Действие выполнено");
+            }
+            else
+            {
+                MessageBox.Show("Листбокс пустой");
+            }
+        }
     }
 }
