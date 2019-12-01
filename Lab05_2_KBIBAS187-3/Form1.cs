@@ -42,8 +42,9 @@ namespace Lab05_2_KBIBAS187_3
 
         private bool CreateXML(ref XDocument xDoc,ref Student student)
         {
-            XElement studElement=new XElement("Студент");
-            XAttribute studNameAttribute= new XAttribute("Имя", student.Name);
+            XElement studElement= new XElement("Студент");
+            XAttribute studElementNameAttribute = new XAttribute(Student.AttributesNameStrings[0], student.Name);
+            XElement stud
         }
         private void Form1_Load(object sender, EventArgs e)
         {

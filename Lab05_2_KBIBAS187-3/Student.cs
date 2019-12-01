@@ -9,7 +9,9 @@ namespace Lab05_2_KBIBAS187_3
 {
     class Student
     {
-        public List<String> AttributesName { get; set; }= new List<string>();
+        public static string[] AttributesNameStrings { get; } = new[]
+            {"Имя", "Фамилия", "Отчество", "Специальность", "Курс", "Дата рождения", "Место рождения"};
+
         private static Int32 StudentsFrom1Course(ref ListBox list, Int32 course)
         {
             Int32 count = 0;
@@ -28,11 +30,31 @@ namespace Lab05_2_KBIBAS187_3
         {
             get
             {
-                 /* return the specified index here */
-            }
-            set
-            {
-                /* set the specified index to value here */
+                switch (index)
+                {
+                    case 0:
+                        return Name;
+                        break;
+                    case 1:
+                        return Surname;
+                    break;
+                    case 2:
+                        return Otchestvo;
+                        break;
+                    case 3:
+                        return Specialization;
+                    case 4:
+                        return Course.ToString();
+                    case 5:
+                        return BirthDateTime.ToShortDateString();
+                    break;
+                    case 6:
+                        return PlaceOfBirth;
+                    break;
+                    default:
+                        throw new ArgumentException("Что-то не так с индесатором");
+                        break;
+                }
             }
         }
         public Student(String name, String surname, String otchestvo, String specialization, Int32 course, DateTime birthDateTime, String placeOfBirth)
