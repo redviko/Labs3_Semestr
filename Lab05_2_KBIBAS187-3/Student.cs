@@ -10,21 +10,21 @@ namespace Lab05_2_KBIBAS187_3
     class Student
     {
         public static string[] AttributesNameStrings { get; } = new[]
-            {"Имя", "Фамилия", "Отчество", "Специальность", "Курс", "Дата рождения", "Место рождения"};
+            {"Имя", "Фамилия", "Отчество", "Специальность", "Курс", "Дата_рождения", "Место_рождения"};
 
-        private static Int32 StudentsFrom1Course(ref ListBox list, Int32 course)
-        {
-            Int32 count = 0;
-            foreach (Student student in list.Items)
-            {
-                if (student.Course == course)
-                {
-                    count++;
-                }
-            }
+        //private static Int32 StudentsFrom1Course(ref ListBox list, Int32 course)
+        //{
+        //    Int32 count = 0;
+        //    foreach (Student student in list.Items)
+        //    {
+        //        if (student.Course == course)
+        //        {
+        //            count++;
+        //        }
+        //    }
 
-            return count;
-        }
+        //    return count;
+        //}
 
         public string this[int index]
         {
@@ -34,7 +34,7 @@ namespace Lab05_2_KBIBAS187_3
                 {
                     case 0:
                         return Name;
-                        break;
+                    break;
                     case 1:
                         return Surname;
                     break;
@@ -46,7 +46,8 @@ namespace Lab05_2_KBIBAS187_3
                     case 4:
                         return Course.ToString();
                     case 5:
-                        return BirthDateTime.ToShortDateString();
+                        return BirthDateTime.Day.ToString() + "." + BirthDateTime.Month.ToString() + "." +
+                               BirthDateTime.Year.ToString();
                     break;
                     case 6:
                         return PlaceOfBirth;
