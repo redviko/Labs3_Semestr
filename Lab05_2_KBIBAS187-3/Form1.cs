@@ -41,7 +41,7 @@ namespace Lab05_2_KBIBAS187_3
                 
         }
 
-        private bool CreateXML(ref XDocument xDoc,ref Student student) //Создание .XML
+        private bool CreateXML(ref XDocument xDoc,ref List<Student> students) //Создание .XML
         {
             if (saveFileDialog1.ShowDialog()== DialogResult.Cancel)
             {
@@ -50,18 +50,24 @@ namespace Lab05_2_KBIBAS187_3
             }
             try
             {
-                XElement studElement = new XElement("Студент");
-                XAttribute studElementNameAttribute = new XAttribute(Student.AttributesNameStrings[0], student[0]);
-                XElement studSurnameElement = new XElement(Student.AttributesNameStrings[1], student[1]);
-                XElement studOtchestvoElement = new XElement(Student.AttributesNameStrings[2], student[2]);
-                XElement studSpecializationElement = new XElement(Student.AttributesNameStrings[3], student[3]);
-                XElement studCoursElement = new XElement(Student.AttributesNameStrings[4], student[4]);
-                XElement studBirthDatElement = new XElement(Student.AttributesNameStrings[5], $"{student[5]}");
-                XElement studPlaceOfBirthElement = new XElement(Student.AttributesNameStrings[6], student[6]);
-                studElement.Add(studElementNameAttribute, studSurnameElement, studOtchestvoElement, studSpecializationElement, studCoursElement, studBirthDatElement, studPlaceOfBirthElement);
-                xDoc.Add(studElement);
+
+                XElement studentsElement = new XElement("Студенты");
+                foreach (Student student in students)
+                {
+                    XElement studElement = new XElement("Студент");
+                    XAttribute studElementNameAttribute = new XAttribute(Student.AttributesNameStrings[0], student[0]);
+                    XElement studSurnameElement = new XElement(Student.AttributesNameStrings[1], student[1]);
+                    XElement studOtchestvoElement = new XElement(Student.AttributesNameStrings[2], student[2]);
+                    XElement studSpecializationElement = new XElement(Student.AttributesNameStrings[3], student[3]);
+                    XElement studCoursElement = new XElement(Student.AttributesNameStrings[4], student[4]);
+                    XElement studBirthDatElement = new XElement(Student.AttributesNameStrings[5], $"{student[5]}");
+                    XElement studPlaceOfBirthElement = new XElement(Student.AttributesNameStrings[6], student[6]);
+                    studElement.Add(studElementNameAttribute, studSurnameElement, studOtchestvoElement, studSpecializationElement, studCoursElement, studBirthDatElement, studPlaceOfBirthElement);
+                    studentsElement.Add(studElement);
+                }
+                xDoc.Add(studentsElement);
                 xDoc.Save(saveFileDialog1.FileName);
-                 return true;
+                return true;
             }
             catch (Exception e)
             {
@@ -76,19 +82,23 @@ namespace Lab05_2_KBIBAS187_3
             try
             {
                 xDocument = XDocument.Load(openFileDialog1.FileName);
-                foreach (XElement xElement in xDocument.Elements("Студент"))
+
+                foreach (XElement xElement in xDocument.Elements("Студенты").Elements("Студент"))
                 {
-                    XElement specializationElement = xElement.Element(Student.AttributesNameStrings[3]);
-                    XElement coursElement = xElement.Element(Student.AttributesNameStrings[4]);
-                    XElement birthDateElement = xElement.Element(Student.AttributesNameStrings[5]);
-                    XElement placeofBirthElement = xElement.Element(Student.AttributesNameStrings[6]);
-                    if (specializationElement != null && coursElement != null && birthDateElement != null && placeofBirthElement != null)
+                    if (xElement.FirstAttribute.Value==listBox1.SelectedItem.ToString())
                     {
-                        label2.Text = specializationElement.Value;
-                        label4.Text = coursElement.Value;
-                        label6.Text = birthDateElement.Value;
-                        label8.Text = placeofBirthElement.Value;
-                        return true;
+                        XElement specializationElement = xElement.Element(Student.AttributesNameStrings[3]);
+                        XElement coursElement = xElement.Element(Student.AttributesNameStrings[4]);
+                        XElement birthDateElement = xElement.Element(Student.AttributesNameStrings[5]);
+                        XElement placeofBirthElement = xElement.Element(Student.AttributesNameStrings[6]);
+                        if (specializationElement != null && coursElement != null && birthDateElement != null && placeofBirthElement != null)
+                        {
+                            label2.Text = specializationElement.Value;
+                            label4.Text = coursElement.Value;
+                            label6.Text = birthDateElement.Value;
+                            label8.Text = placeofBirthElement.Value;
+                            return true;
+                        }
                     }
                 }
                 MessageBox.Show("Что-то пошло не так, но это не Exception");
@@ -147,14 +157,47 @@ namespace Lab05_2_KBIBAS187_3
                 {
                     XDocument xDocument= new XDocument();
                     //string text = ReadAllText(openFileDialog1.FileName);
-                    String[] strings = ReadAllText(openFileDialog1.FileName).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    String[] dateStrings = strings[5].Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-                    DateTime date = new DateTime(int.Parse(dateStrings[2]), int.Parse(dateStrings[1]), int.Parse(dateStrings[0]));
-                    Student student = new Student(strings[0], strings[1], strings[2], strings[3], int.Parse(strings[4]), date, strings[6]);
-                    if (CreateXML(ref xDocument, ref student))
+                    String[] lines = ReadAllLines(openFileDialog1.FileName);
+                    List<string[]> strings=new List<string[]>();
+                    for (int i = 0; i < lines.Length; i++)
                     {
-                        MessageBox.Show("Файл .XML создан");
+                        strings.Add(lines[i].Split(new []{' ','.'}, StringSplitOptions.RemoveEmptyEntries));
                     }
+                    List<DateTime> dateTimes=new List<DateTime>();
+                    foreach (string[] s in strings)
+                    {
+                        dateTimes.Add(new DateTime(int.Parse(s[7]),int.Parse(s[6]),int.Parse(s[5])));
+                    }
+
+                    List<Student> students= new List<Student>();
+                    foreach (string[] s in strings)
+                    {
+                        Student student= new Student();
+                        foreach (DateTime dateTime in dateTimes)
+                        {
+                            student[0] = s[0];
+                            student[1] = s[1];
+                            student[2] = s[2];
+                            student[3] = s[3];
+                            student[4] = s[4];
+                            student[5] = $"{dateTime.Day}.{dateTime.Month}.{dateTime.Year}";
+                            student[6] = s[8];
+                            students.Add(student);
+                            break;
+                        }
+                    }
+
+                    if (CreateXML(ref xDocument, ref students))
+                    {
+                        MessageBox.Show("Действие выполнено успешно");
+                    }
+                    ////String[] dateStrings = strings[5].Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                    ////DateTime date = new DateTime(int.Parse(dateStrings[2]), int.Parse(dateStrings[1]), int.Parse(dateStrings[0]));
+                    ////Student student = new Student(strings[0], strings[1], strings[2], strings[3], int.Parse(strings[4]), date, strings[6]);
+                    //if (CreateXML(ref xDocument, ref student))
+                    //{
+                    //    MessageBox.Show("Файл .XML создан");
+                    //}
                 }
                 else
                 {
@@ -180,7 +223,7 @@ namespace Lab05_2_KBIBAS187_3
                 {
                     bool issuccess = false;
                     XDocument xDoc = XDocument.Load(openFileDialog1.FileName);
-                    foreach (XElement xElement in xDoc.Elements("Студент"))
+                    foreach (XElement xElement in xDoc.Elements("Студенты").Elements("Студент"))
                     {
                         XAttribute xAttribute = xElement.Attribute(Student.AttributesNameStrings[0]);
                         if (xAttribute != null)
@@ -195,6 +238,10 @@ namespace Lab05_2_KBIBAS187_3
                     if (!issuccess)
                     {
                         MessageBox.Show("Не найдено подходящих элементов в .XML файле");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Дело сделано");
                     }
                 }
             }

@@ -57,7 +57,38 @@ namespace Lab05_2_KBIBAS187_3
                         break;
                 }
             }
+            set
+            {
+                switch (index)
+                {
+                    case 0:
+                        Name = value;
+                        break;
+                    case 1:
+                         Surname= value;
+                        break;
+                    case 2:
+                        Otchestvo= value;
+                        break;
+                    case 3: 
+                        Specialization= value;
+                        break;
+                    case 4:
+                        Course= int.Parse(value);
+                        break;
+                    case 5:
+                        BirthDateTime=DateTime.Parse(value);
+                        break;
+                    case 6:
+                        PlaceOfBirth=value;
+                        break;
+                    default:
+                        throw new ArgumentException("Что-то не так с индесатором");
+                        break;
+                }
+            }
         }
+
         public Student(String name, String surname, String otchestvo, String specialization, Int32 course, DateTime birthDateTime, String placeOfBirth)
         {
             if (surname != null) Surname = surname;
