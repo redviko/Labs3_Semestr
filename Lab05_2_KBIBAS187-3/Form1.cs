@@ -8,10 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using System.Xml;
 using static System.IO.File;
 using System.Xml.Linq;
-
+using  Word= Microsoft.Office.Interop.Word;
 namespace Lab05_2_KBIBAS187_3
 {
     public partial class Form1 : Form
@@ -22,6 +23,48 @@ namespace Lab05_2_KBIBAS187_3
             InitializeComponent();
         }
 
+        private bool StudentsFrom1Course(int course) //Определить количество студентов с одного курса
+        {
+            try
+            {
+                if (listBox1.Items.Count != 0)
+                {
+                    int count = 0;
+                    listBox1.SelectedIndex = 0;
+                    foreach (string item in listBox1.Items)
+                    {
+                        listBox1.SelectedIndex++;
+                        if (label4.Text == course.ToString())
+                        {
+                            count++;
+                        }
+                    }
+
+                    if (count != 0)
+                    {
+                        MessageBox.Show($"Количество стдуентов в одного курса = {count}");
+                        return true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Нет людей с одного курса");
+                        return false;
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("Листбокс пуст");
+                    return false;
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Ошибка: {exception.Message}");
+                return false;
+            }
+            
+        }
         private bool CheckFile(ref OpenFileDialog open) //Проверка .txt файла
         {
             if (!Exists(open.FileName))
@@ -99,6 +142,11 @@ namespace Lab05_2_KBIBAS187_3
                             label8.Text = placeofBirthElement.Value;
                             return true;
                         }
+                        else
+                        {
+                            MessageBox.Show("Какого-то элемента явно не хватает");
+                            return false;
+                        }
                     }
                 }
                 MessageBox.Show("Что-то пошло не так, но это не Exception");
@@ -170,22 +218,28 @@ namespace Lab05_2_KBIBAS187_3
                     }
 
                     List<Student> students= new List<Student>();
-                    foreach (string[] s in strings)
+                    for (var i = 0; i < strings.Count; i++)
                     {
                         Student student= new Student();
-                        foreach (DateTime dateTime in dateTimes)
-                        {
-                            student[0] = s[0];
-                            student[1] = s[1];
-                            student[2] = s[2];
-                            student[3] = s[3];
-                            student[4] = s[4];
-                            student[5] = $"{dateTime.Day}.{dateTime.Month}.{dateTime.Year}";
-                            student[6] = s[8];
-                            students.Add(student);
-                            break;
-                        }
+                        student[0] = strings[i][0];
+                        student[1] = strings[i][1];
+                        student[2] = strings[i][2];
+                        student[3] = strings[i][3];
+                        student[4] = strings[i][4];
+                        student[5] = $"{dateTimes[i].Day}.{dateTimes[i].Month}.{dateTimes[i].Year}";
+                        student[6] = strings[i][8];
+                        students.Add(student);
+
                     }
+                    //foreach (string[] s in strings)
+                    //{
+                    //    Student student= new Student();
+                    //    foreach (DateTime dateTime in dateTimes)
+                    //    {
+                           
+                    //        break;
+                    //    }
+                    //}
 
                     if (CreateXML(ref xDocument, ref students))
                     {
@@ -249,6 +303,11 @@ namespace Lab05_2_KBIBAS187_3
             {
                 MessageBox.Show($"Ошибка: {exception.Message}");
             }
+        }
+
+        private void определитьОбщееКоличествоСтудентовУказанногоКурсаИнформациюВыдаватьВВидеСообщенияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
