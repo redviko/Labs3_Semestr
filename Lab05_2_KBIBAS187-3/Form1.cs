@@ -30,18 +30,29 @@ namespace Lab05_2_KBIBAS187_3
                 if (listBox1.Items.Count != 0)
                 {
                     int count = 0;
-                    listBox1.SelectedIndex = 0;
-                    foreach (string item in listBox1.Items)
+                    
+                    for (listBox1.SelectedIndex=0;;listBox1.SelectedIndex++)
                     {
-                        listBox1.SelectedIndex++;
-                        if (label4.Text == course.ToString())
+                        if (listBox1.Items.Count-1==listBox1.SelectedIndex)
                         {
                             count++;
+                            break;
                         }
+
+                        count++;
                     }
+                    //foreach (string item in listBox1.Items)
+                    //{
+                    //    if (label4.Text == course.ToString())
+                    //    {
+                    //        count++;
+                    //    }
+                    //    listBox1.SelectedIndex++;
+                    //}
 
                     if (count != 0)
                     {
+                        
                         MessageBox.Show($"Количество стдуентов в одного курса = {count}");
                         return true;
                     }
@@ -307,7 +318,25 @@ namespace Lab05_2_KBIBAS187_3
 
         private void определитьОбщееКоличествоСтудентовУказанногоКурсаИнформациюВыдаватьВВидеСообщенияToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            try
+            {
+                int course = 0;
+                if (int.TryParse(toolStripTextBox1.Text, out course))
+                {
+                    if (StudentsFrom1Course(course))
+                    {
+                        MessageBox.Show("Дело сделано!");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Не удалось преобразовать в Int");
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Ошибка: {exception.Message}");
+            }
         }
     }
 }
