@@ -38,6 +38,7 @@
             this.создатьКартОчкуPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьКартОчкуEcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.определитьОбщееКоличествоСтудентовУказанногоКурсаИнформациюВыдаватьВВидеСообщенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.действияНадXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.доабвитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,7 +53,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,6 +140,11 @@
     "е сообщения. ";
             this.определитьОбщееКоличествоСтудентовУказанногоКурсаИнформациюВыдаватьВВидеСообщенияToolStripMenuItem.Click += new System.EventHandler(this.определитьОбщееКоличествоСтудентовУказанногоКурсаИнформациюВыдаватьВВидеСообщенияToolStripMenuItem_Click);
             // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
+            // 
             // действияНадXMLToolStripMenuItem
             // 
             this.действияНадXMLToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -153,19 +158,20 @@
             // доабвитьToolStripMenuItem
             // 
             this.доабвитьToolStripMenuItem.Name = "доабвитьToolStripMenuItem";
-            this.доабвитьToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.доабвитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.доабвитьToolStripMenuItem.Text = "Доабвить";
+            this.доабвитьToolStripMenuItem.Click += new System.EventHandler(this.доабвитьToolStripMenuItem_Click);
             // 
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.удалитьToolStripMenuItem.Text = "Удалить";
             // 
             // редактироватьToolStripMenuItem
             // 
             this.редактироватьToolStripMenuItem.Name = "редактироватьToolStripMenuItem";
-            this.редактироватьToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.редактироватьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.редактироватьToolStripMenuItem.Text = "Редактировать";
             // 
             // openFileDialog1
@@ -243,11 +249,6 @@
             this.label8.Size = new System.Drawing.Size(35, 13);
             this.label8.TabIndex = 10;
             this.label8.Text = "label8";
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
             // 
             // Form1
             // 

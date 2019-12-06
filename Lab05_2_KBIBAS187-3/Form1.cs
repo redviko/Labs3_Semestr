@@ -17,13 +17,14 @@ namespace Lab05_2_KBIBAS187_3
 {
     public partial class Form1 : Form
     {
-        List<string> xmPathList = new List<string>();
+        public static List<string> XmPathList { get; set; } = new List<string>();
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private bool StudentsFrom1Course(int course) //Определить количество студентов с одного курса
+        private bool StudentsFrom1Course() //Определить количество студентов с одного курса
         {
             try
             {
@@ -130,13 +131,13 @@ namespace Lab05_2_KBIBAS187_3
             }
         }
 
-        private bool ReadXML(ref OpenFileDialog open, ref XDocument xDocument)
+        private bool ReadXML(ref XDocument xDocument)
         {
 
             try
             {
                 xDocument = XDocument.Load(openFileDialog1.FileName);
-
+                XElement xaElement = xDocument.Element("Студенты");
                 foreach (XElement xElement in xDocument.Elements("Студенты").Elements("Студент"))
                 {
                     if (xElement.FirstAttribute.Value==listBox1.SelectedItem.ToString())
@@ -184,15 +185,15 @@ namespace Lab05_2_KBIBAS187_3
                     label4.Text= String.Empty;
                     label6.Text=String.Empty;
                     label8.Text= String.Empty;
-                    openFileDialog1.FileName = xmPathList[listBox1.SelectedIndex];
+                    openFileDialog1.FileName = XmPathList[listBox1.SelectedIndex];
                     if (CheckFile(ref openFileDialog1))
                     {
                         XDocument xDocument = new XDocument();
-                        ReadXML(ref openFileDialog1, ref xDocument);
+                        ReadXML(ref xDocument);
                     }
                     else
                     {
-                        xmPathList.RemoveAt(listBox1.SelectedIndex);
+                        XmPathList.RemoveAt(listBox1.SelectedIndex);
                         listBox1.Items.Remove(listBox1.SelectedItem);
                     }
                 }
@@ -286,6 +287,8 @@ namespace Lab05_2_KBIBAS187_3
             {
                 if (CheckFile(ref openFileDialog1))
                 {
+                    listBox1.Items.Clear();
+                    XmPathList.Clear();
                     bool issuccess = false;
                     XDocument xDoc = XDocument.Load(openFileDialog1.FileName);
                     foreach (XElement xElement in xDoc.Elements("Студенты").Elements("Студент"))
@@ -295,7 +298,7 @@ namespace Lab05_2_KBIBAS187_3
                         {
                             issuccess = true;
                             listBox1.Items.Add(xAttribute.Value);
-                            xmPathList.Add(openFileDialog1.FileName);
+                            XmPathList.Add(openFileDialog1.FileName);
                             listBox1.SelectedIndex = listBox1.Items.IndexOf(xAttribute.Value);
                         }
                     }
@@ -323,7 +326,7 @@ namespace Lab05_2_KBIBAS187_3
                 int course = 0;
                 if (int.TryParse(toolStripTextBox1.Text, out course))
                 {
-                    if (StudentsFrom1Course(course))
+                    if (StudentsFrom1Course())
                     {
                         MessageBox.Show("Дело сделано!");
                     }
@@ -336,6 +339,29 @@ namespace Lab05_2_KBIBAS187_3
             catch (Exception exception)
             {
                 MessageBox.Show($"Ошибка: {exception.Message}");
+            }
+        }
+
+        private void доабвитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (listBox1.Items.Count!=0)
+                {
+                    Boolean flag = false;
+                    var form1 = this;
+                    Form2 form2 = new Form2(XmPathList[listBox1.SelectedIndex],ref flag);
+                    form2.Owner = this;
+                    form2.ShowDialog(); 
+                }
+                else
+                {
+                    MessageBox.Show("Не выбран файл в который будем добавлять записи");
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Ошибка : {exception.Message}");
             }
         }
     }
