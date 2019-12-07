@@ -350,9 +350,15 @@ namespace Lab05_2_KBIBAS187_3
                 {
                     Boolean flag = false;
                     var form1 = this;
-                    Form2 form2 = new Form2(XmPathList[listBox1.SelectedIndex],ref flag);
-                    form2.Owner = this;
-                    form2.ShowDialog(); 
+                    using (Form2 form2 = new Form2(XmPathList[listBox1.SelectedIndex], ref flag) {Owner = this})
+                    {
+                        form2.ShowDialog();
+                        if (form2.Text!="Form2")
+                        {
+                            listBox1.Items.Add(form2.Text);
+                            XmPathList.Add(form2.pathToNewFile);
+                        }
+                    }
                 }
                 else
                 {
@@ -363,6 +369,58 @@ namespace Lab05_2_KBIBAS187_3
             {
                 MessageBox.Show($"Ошибка : {exception.Message}");
             }
+        }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e) // Удаление записи из .XML
+        {
+            try
+            {
+                Boolean isright = false;
+                if (listBox1.Items.Count!=0)
+                {
+                    if (listBox1.SelectedItems.Count!=0)
+                    {
+                        XDocument xDoc= XDocument.Load(XmPathList[listBox1.SelectedIndex]);
+                        foreach (XElement xElement in xDoc.Elements("Студенты").Elements("Студент"))
+                        {
+                            if (xElement.FirstAttribute.Value==listBox1.SelectedItem.ToString())
+                            {
+                                xElement.Remove();
+                                isright = true;
+                                xDoc.Save(XmPathList[listBox1.SelectedIndex]);
+                                listBox1.Items.Remove(listBox1.SelectedItem);
+                                break;
+                            }
+                        }
+
+                        if (!isright)
+                        {
+                            MessageBox.Show("Странно, но почему то такой записи в .XML не нашлось");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Действие успешно выполнено!");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Выберите хоть что-то");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Нет записей в листбоксе");
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Ошибка: {exception.Message}");
+            }
+        }
+
+        private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e) //Редакитование
+        {
+
         }
     }
 }

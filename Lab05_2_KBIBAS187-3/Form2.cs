@@ -14,7 +14,8 @@ namespace Lab05_2_KBIBAS187_3
     public partial class Form2 : Form
     {
         private string pathString;
-        private Boolean flag;
+        private Boolean  flag;
+        public String pathToNewFile { get; set; }
 
         public Form2(string xmlPathString, ref bool flag)
         {
@@ -46,6 +47,8 @@ namespace Lab05_2_KBIBAS187_3
                     SaveFileDialog save = new SaveFileDialog();
                     if (save.ShowDialog() != DialogResult.Cancel)
                     {
+                        Text = studElementNameAttribute.Value;
+                        pathToNewFile = save.FileName;
                         xDoc.Save(save.FileName);
                         flag = true;
                         return flag;
