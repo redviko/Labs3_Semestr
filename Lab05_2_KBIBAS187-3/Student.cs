@@ -7,8 +7,9 @@ using System.Windows.Forms;
 
 namespace Lab05_2_KBIBAS187_3
 {
-    class Student
+    public class Student
     {
+        public static Student Student1 { get; set; } //Реализцаия передачи данных между формами посредством статической переменной
         public static string[] AttributesNameStrings { get; } = new[]
             {"Имя", "Фамилия", "Отчество", "Специальность", "Курс", "Дата_рождения", "Место_рождения"};
 

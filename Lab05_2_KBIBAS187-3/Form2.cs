@@ -13,11 +13,11 @@ namespace Lab05_2_KBIBAS187_3
 {
     public partial class Form2 : Form
     {
-        private string pathString;
-        private Boolean  flag;
-        public String pathToNewFile { get; set; }
+        private string pathString; //Переменная под путь
+        private Boolean  flag; //Бесполезный код по-факту.
+        public String pathToNewFile { get; set; }// Переменная для передачи нового пути, если он был изменен в процессе сохранения .XML файла
 
-        public Form2(string xmlPathString, ref bool flag)
+        public Form2(string xmlPathString, ref bool flag)// Передача данных с первой формы путём изменеия конструтора
         {
             InitializeComponent();
             pathString = xmlPathString;

@@ -131,6 +131,51 @@ namespace Lab05_2_KBIBAS187_3
             }
         }
 
+        private bool ReadXML(ref XDocument xDocument,ref Student student)
+        {
+            try
+            {
+                xDocument = XDocument.Load(openFileDialog1.FileName);
+                XElement xaElement = xDocument.Element("Студенты");
+                foreach (XElement xElement in xDocument.Elements("Студенты").Elements("Студент"))
+                {
+                    if (xElement.FirstAttribute.Value == listBox1.SelectedItem.ToString())
+                    {
+                        XElement surnameElement = xElement.Element(Student.AttributesNameStrings[1]);
+                        XElement otchestvoElement = xElement.Element(Student.AttributesNameStrings[2]);
+                        XElement specializationElement = xElement.Element(Student.AttributesNameStrings[3]);
+                        XElement coursElement = xElement.Element(Student.AttributesNameStrings[4]);
+                        XElement birthDateElement = xElement.Element(Student.AttributesNameStrings[5]);
+                        XElement placeofBirthElement = xElement.Element(Student.AttributesNameStrings[6]);
+                        if (specializationElement != null && coursElement != null && birthDateElement != null &&
+                            placeofBirthElement != null)
+                        {
+                            label2.Text = specializationElement.Value;
+                            label4.Text = coursElement.Value;
+                            label6.Text = birthDateElement.Value;
+                            label8.Text = placeofBirthElement.Value;
+                            Student studak= new Student(xElement.FirstAttribute.Value,surnameElement.Value,otchestvoElement.Value,specializationElement.Value,int.Parse(coursElement.Value),DateTime.Parse(birthDateElement.Value), placeofBirthElement.Value);
+                            student = studak;
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Какого-то элемента явно не хватает");
+                            return false;
+                        }
+                    }
+                }
+
+                MessageBox.Show("Что-то пошло не так, но это не Exception");
+                return false;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Ошибка: {exception.Message}");
+                return false;
+            }
+        } //Перегруженный метод для возвращения объекта
+
         private bool ReadXML(ref XDocument xDocument)
         {
 
@@ -169,7 +214,7 @@ namespace Lab05_2_KBIBAS187_3
                 MessageBox.Show($"Ошибка: {exception.Message}");
                 return false;
             }
-        }
+        } //Изначальный метод для считывания XML
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -420,7 +465,29 @@ namespace Lab05_2_KBIBAS187_3
 
         private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e) //Редакитование
         {
-
+            if (listBox1.Items.Count!=0)
+            {
+                if (listBox1.SelectedItem!=null)
+                {
+                    XDocument xDoc= new XDocument();
+                    Student student = new Student();
+                    ReadXML(ref xDoc, ref student);
+                    Student.Student1 = student;
+                    using (Edit edit = new Edit())
+                    {
+                        edit.Owner = this;
+                        edit.ShowDialog();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Выберите хоть что-то");
+                }
+            }
+            else
+            {
+                MessageBox.Show($"Листбокс пустой");
+            }
         }
     }
 }

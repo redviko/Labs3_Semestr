@@ -15,6 +15,22 @@ namespace Lab05_2_KBIBAS187_3
         public Edit()
         {
             InitializeComponent();
+            textBox1.Text = Student.Student1[0];
+            textBox2.Text = Student.Student1[1];
+            textBox3.Text = Student.Student1[2];
+            textBox4.Text = Student.Student1[3];
+            textBox5.Text = Student.Student1[6];
+            maskedTextBox1.Text = Student.Student1[4];
+            dateTimePicker1.Value = Student.Student1.BirthDateTime;
+        }
+
+        private Boolean EditStudent()
+        {
+
+        }
+        private void Edit_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
