@@ -190,6 +190,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Edit";
             this.Text = "Edit";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Edit_FormClosing);
             this.Load += new System.EventHandler(this.Edit_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

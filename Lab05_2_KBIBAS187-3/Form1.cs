@@ -473,7 +473,7 @@ namespace Lab05_2_KBIBAS187_3
                     Student student = new Student();
                     ReadXML(ref xDoc, ref student);
                     Student.Student1 = student;
-                    using (Edit edit = new Edit())
+                    using (Edit edit = new Edit(XmPathList[listBox1.SelectedIndex]))
                     {
                         edit.Owner = this;
                         edit.ShowDialog();
