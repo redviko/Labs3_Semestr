@@ -1,50 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using System.IO;
+
 namespace Lab05_2_KBIBAS187_3
 {
     public partial class Form2 : Form
     {
-        private string pathString; //Переменная под путь
-        private Boolean  flag; //Бесполезный код по-факту.
-        public String pathToNewFile { get; set; }// Переменная для передачи нового пути, если он был изменен в процессе сохранения .XML файла
+        private bool flag; //Бесполезный код по-факту.
+        private readonly string pathString; //Переменная под путь
 
-        public Form2(string xmlPathString, ref bool flag)// Передача данных с первой формы путём изменеия конструтора
+        public Form2(string xmlPathString, ref bool flag) // Передача данных с первой формы путём изменеия конструтора
         {
             InitializeComponent();
             pathString = xmlPathString;
             this.flag = flag;
-
         }
 
-        public bool Add(ref Boolean flag)
+        public string
+            pathToNewFile
+        {
+            get;
+            set;
+        } // Переменная для передачи нового пути, если он был изменен в процессе сохранения .XML файла
+
+        public bool Add(ref bool flag)
         {
             try
             {
                 if (File.ReadAllLines(pathString).Length != 0)
                 {
-                    XDocument xDoc = XDocument.Load(pathString);
-                    XElement studElement = xDoc.Element("Студенты");
-                    XElement studsElement = new XElement("Студент");
-                    Student student = new Student(textBox1.Text, textBox2.Text, textBox3.Text, textBox6.Text, int.Parse(maskedTextBox1.Text), dateTimePicker1.Value, textBox5.Text);
-                    XAttribute studElementNameAttribute = new XAttribute(Student.AttributesNameStrings[0], textBox1.Text);
-                    XElement studSurnameElement = new XElement(Student.AttributesNameStrings[1], textBox2.Text);
-                    XElement studOtchestvoElement = new XElement(Student.AttributesNameStrings[2], textBox3.Text);
-                    XElement studSpecializationElement = new XElement(Student.AttributesNameStrings[3], textBox6.Text);
-                    XElement studCoursElement = new XElement(Student.AttributesNameStrings[4], maskedTextBox1.Text);
-                    XElement studBirthDatElement = new XElement(Student.AttributesNameStrings[5], student[5]);
-                    XElement studPlaceOfBirthElement = new XElement(Student.AttributesNameStrings[6], textBox5.Text);
-                    studsElement.Add(studElementNameAttribute, studSurnameElement, studOtchestvoElement, studSpecializationElement, studCoursElement, studBirthDatElement, studPlaceOfBirthElement);
+                    var xDoc = XDocument.Load(pathString);
+                    var studElement = xDoc.Element("Студенты");
+                    var studsElement = new XElement("Студент");
+                    var student = new Student(textBox1.Text, textBox2.Text, textBox3.Text, textBox6.Text,
+                        int.Parse(maskedTextBox1.Text), dateTimePicker1.Value, textBox5.Text);
+                    var studElementNameAttribute = new XAttribute(Student.AttributesNameStrings[0], textBox1.Text);
+                    var studSurnameElement = new XElement(Student.AttributesNameStrings[1], textBox2.Text);
+                    var studOtchestvoElement = new XElement(Student.AttributesNameStrings[2], textBox3.Text);
+                    var studSpecializationElement = new XElement(Student.AttributesNameStrings[3], textBox6.Text);
+                    var studCoursElement = new XElement(Student.AttributesNameStrings[4], maskedTextBox1.Text);
+                    var studBirthDatElement = new XElement(Student.AttributesNameStrings[5], student[5]);
+                    var studPlaceOfBirthElement = new XElement(Student.AttributesNameStrings[6], textBox5.Text);
+                    studsElement.Add(studElementNameAttribute, studSurnameElement, studOtchestvoElement,
+                        studSpecializationElement, studCoursElement, studBirthDatElement, studPlaceOfBirthElement);
                     studElement.LastNode.AddAfterSelf(studsElement);
-                    SaveFileDialog save = new SaveFileDialog();
+                    var save = new SaveFileDialog();
                     if (save.ShowDialog() != DialogResult.Cancel)
                     {
                         Text = studElementNameAttribute.Value;
@@ -53,17 +54,14 @@ namespace Lab05_2_KBIBAS187_3
                         flag = true;
                         return flag;
                     }
-                    else
-                    {
-                        MessageBox.Show("Действие отменено");
-                        flag = false;
-                        return flag;
-                    }
+
+                    MessageBox.Show("Действие отменено");
+                    flag = false;
+                    return flag;
                 }
 
                 flag = false;
                 return flag;
-
             }
             catch (Exception exception)
             {
@@ -72,10 +70,11 @@ namespace Lab05_2_KBIBAS187_3
                 return flag;
             }
         }
+
         private void Form2_Load(object sender, EventArgs e)
         {
-            
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (Add(ref flag))
