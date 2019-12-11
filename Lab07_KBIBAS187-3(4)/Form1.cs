@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,14 +26,13 @@ namespace Lab07_KBIBAS187_3_4_
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            switch (ModifierKeys)
+            if (e.Shift && e.KeyCode == Keys.Delete)
             {
-                case Keys.Shift when e.KeyCode == Keys.Delete:
-                    textBox1.Text = String.Empty;
-                    break;
-                case Keys.Shift:
-                    listBox1.Items.Clear();
-                    break;
+                textBox1.Text = String.Empty;
+            }
+            else if (e.Shift)
+            {
+                listBox1.Items.Clear();
             }
         }
 
@@ -50,7 +50,7 @@ namespace Lab07_KBIBAS187_3_4_
                 if (!String.IsNullOrEmpty(textBox1.Text))
                 {
                     textBox1.DoDragDrop(textBox1.Text, DragDropEffects.Move| DragDropEffects.Copy);
-                    textBox1.Text=String.Empty;
+                    //textBox1.Text=String.Empty;
                 }
             }
         }
@@ -59,6 +59,7 @@ namespace Lab07_KBIBAS187_3_4_
         {
             listBox1.Items.Add(e.Data.GetData(DataFormats.Text)).ToString();
             textBox1.BackColor = DefaultBackColor;
+            textBox1.Text=String.Empty;
         }
 
         private void textBox1_GiveFeedback(object sender, GiveFeedbackEventArgs e)
@@ -117,6 +118,63 @@ namespace Lab07_KBIBAS187_3_4_
             else
             {
                 e.Effect = DragDropEffects.Move;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+                {
+                    MessageBox.Show("Действие отменено");
+                    return;
+                }
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+                {
+                    MessageBox.Show("Действие отменено");
+                    return;
+                }
+
+                switch (label1.Text)
+                {
+                    case "Сохранить":
+                    {
+                        if (listBox1.Items.Count != 0)
+                        {
+                            foreach (string s in listBox1.Items)
+                            {
+                                File.AppendAllText(saveFileDialog1.FileName, s);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Листбокс пустой");
+                        }
+
+                        label1.Text = $"Читать текст";
+                        break;
+                    }
+                    case "Читать текст":
+                    {
+                        if (File.ReadAllLines(openFileDialog1.FileName).Length!=0)
+                        {
+                            foreach (string line in File.ReadAllLines(openFileDialog1.FileName))
+                            {
+                                listBox1.Items.Add(line);
+                            }
+
+                            label1.Text = $"Сохранить";
+                        }
+
+                        break;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Ошибка: {exception.Message}");
             }
         }
     }
