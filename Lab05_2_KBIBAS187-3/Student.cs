@@ -35,10 +35,10 @@ namespace Lab05_2_KBIBAS187_3
                 {
                     case 0:
                         return Name;
-                    break;
+                        break;
                     case 1:
                         return Surname;
-                    break;
+                        break;
                     case 2:
                         return Otchestvo;
                         break;
@@ -49,10 +49,10 @@ namespace Lab05_2_KBIBAS187_3
                     case 5:
                         return BirthDateTime.Day.ToString() + "." + BirthDateTime.Month.ToString() + "." +
                                BirthDateTime.Year.ToString();
-                    break;
+                        break;
                     case 6:
                         return PlaceOfBirth;
-                    break;
+                        break;
                     default:
                         throw new ArgumentException("Что-то не так с индесатором");
                         break;
@@ -66,22 +66,22 @@ namespace Lab05_2_KBIBAS187_3
                         Name = value;
                         break;
                     case 1:
-                         Surname= value;
+                        Surname = value;
                         break;
                     case 2:
-                        Otchestvo= value;
+                        Otchestvo = value;
                         break;
-                    case 3: 
-                        Specialization= value;
+                    case 3:
+                        Specialization = value;
                         break;
                     case 4:
-                        Course= int.Parse(value);
+                        Course = int.Parse(value);
                         break;
                     case 5:
-                        BirthDateTime=DateTime.Parse(value);
+                        BirthDateTime = DateTime.Parse(value);
                         break;
                     case 6:
-                        PlaceOfBirth=value;
+                        PlaceOfBirth = value;
                         break;
                     default:
                         throw new ArgumentException("Что-то не так с индесатором");
@@ -89,6 +89,10 @@ namespace Lab05_2_KBIBAS187_3
                 }
             }
         }
+
+        public override string ToString() =>
+            $"Имя:{Name} Фамилия:{Surname} Отчество:{Otchestvo}\r\nКурс:{Course} Дата рождения{BirthDateTime.Day}.{BirthDateTime.Month}.{BirthDateTime.Year} Место рождения:{PlaceOfBirth}";
+
 
         public Student(String name, String surname, String otchestvo, String specialization, Int32 course, DateTime birthDateTime, String placeOfBirth)
         {
@@ -101,7 +105,7 @@ namespace Lab05_2_KBIBAS187_3
             if (placeOfBirth != null) PlaceOfBirth = placeOfBirth;
         }
 
-        
+
         public Student()
         {
         }

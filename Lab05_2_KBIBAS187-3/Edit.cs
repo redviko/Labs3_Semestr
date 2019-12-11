@@ -16,6 +16,7 @@ namespace Lab05_2_KBIBAS187_3
     {
         private readonly string _pathString;
         public Boolean IsSuccess { get; set; }
+        private Boolean flag { get; set; } = false;
         public Edit(string pathString)
         {
             _pathString = pathString;
@@ -32,48 +33,113 @@ namespace Lab05_2_KBIBAS187_3
 
         private Boolean EditStudent(ref bool isclosing)
         {
-            Boolean flag = false;
-            if (textBox1.Text != Student.Student1[0] || textBox2.Text != Student.Student1[1] ||
-                textBox3.Text != Student.Student1[2] || textBox4.Text != Student.Student1[3] ||
-                textBox5.Text != Student.Student1[6] || maskedTextBox1.Text != Student.Student1[4] ||
-                dateTimePicker1.Value != Student.Student1.BirthDateTime)
+            try
             {
-                flag = true;
-                if (isclosing)
+                Boolean flag = false;
+                if (textBox1.Text != Student.Student1[0] || textBox2.Text != Student.Student1[1] ||
+                    textBox3.Text != Student.Student1[2] || textBox4.Text != Student.Student1[3] ||
+                    textBox5.Text != Student.Student1[6] || maskedTextBox1.Text != Student.Student1[4] ||
+                    dateTimePicker1.Value != Student.Student1.BirthDateTime)
                 {
-                    DialogResult dialog = MessageBox.Show("Вы хотите сохранить изменения?", "Закрытие формы",
-                        MessageBoxButtons.OKCancel);
-                    if (dialog == DialogResult.OK)
+                    flag = true;
+                    if (isclosing)
                     {
-                        Student.Student1[0] = textBox1.Text;
-                        Student.Student1[1] = textBox2.Text;
-                        Student.Student1[2] = textBox3.Text;
-                        Student.Student1[3] = textBox4.Text;
-                        Student.Student1[6] = textBox5.Text;
-                        Student.Student1[4] = maskedTextBox1.Text;
-                        Student.Student1.BirthDateTime = dateTimePicker1.Value;
+                        DialogResult dialog = MessageBox.Show("Вы хотите сохранить изменения?", "Закрытие формы",
+                            MessageBoxButtons.OKCancel);
+                        if (dialog == DialogResult.OK)
+                        {
+                            Student.Student1[0] = textBox1.Text;
+                            Student.Student1[1] = textBox2.Text;
+                            Student.Student1[2] = textBox3.Text;
+                            Student.Student1[3] = textBox4.Text;
+                            Student.Student1[6] = textBox5.Text;
+                            Student.Student1[4] = maskedTextBox1.Text;
+                            Student.Student1.BirthDateTime = dateTimePicker1.Value;
+                            if (File.ReadAllLines(_pathString).Length != 0)
+                            {
+                                XDocument xDoc = XDocument.Load(_pathString);
+                                XElement studElement = xDoc.Element("Студенты");
+
+                                Student.Student1[1] = textBox2.Text;
+                                Student.Student1[2] = textBox3.Text;
+                                Student.Student1[3] = textBox4.Text;
+                                Student.Student1[6] = textBox5.Text;
+                                Student.Student1[4] = maskedTextBox1.Text;
+                                Student.Student1.BirthDateTime = dateTimePicker1.Value;
+                                foreach (XElement xElement in xDoc.Elements("Студенты").Elements("Студент"))
+                                {
+                                    if (xElement.FirstAttribute.Value == Student.Student1[0])
+                                    {
+                                        Student.Student1[0] = textBox1.Text;
+                                        xElement.FirstAttribute.Value = Student.Student1[0];
+                                        XElement surnameElement = xElement.Element(Student.AttributesNameStrings[1]);
+                                        surnameElement.Value = Student.Student1[1];
+                                        XElement otchestvoElement = xElement.Element(Student.AttributesNameStrings[2]);
+                                        otchestvoElement.Value = Student.Student1[2];
+                                        XElement specializationElement = xElement.Element(Student.AttributesNameStrings[3]);
+                                        specializationElement.Value = Student.Student1[3];
+                                        XElement coursElement = xElement.Element(Student.AttributesNameStrings[4]);
+                                        coursElement.Value = Student.Student1[4];
+                                        XElement birthDateElement = xElement.Element(Student.AttributesNameStrings[5]);
+                                        birthDateElement.Value = Student.Student1[5];
+                                        XElement placeofBirthElement = xElement.Element(Student.AttributesNameStrings[6]);
+                                        placeofBirthElement.Value = Student.Student1[6];
+                                        break;
+                                    }
+                                }
+                                xDoc.Save(_pathString);
+                                IsSuccess = true;
+                                return flag;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Файл пуст");
+                                IsSuccess = false;
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Вы отменили изменения");
+                            IsSuccess = false;
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        
                         if (File.ReadAllLines(_pathString).Length != 0)
                         {
                             XDocument xDoc = XDocument.Load(_pathString);
                             XElement studElement = xDoc.Element("Студенты");
-                            XElement studsElement = new XElement("Студент");
-                            //Student student = new Student(textBox1.Text, textBox2.Text, textBox3.Text, textBox6.Text, int.Parse(textBox7.Text), dateTimePicker1.Value, textBox5.Text);
-                            XAttribute studElementNameAttribute =
-                                new XAttribute(Student.AttributesNameStrings[0], Student.Student1[0]);
-                            XElement studSurnameElement =
-                                new XElement(Student.AttributesNameStrings[1], Student.Student1[0]);
-                            XElement studOtchestvoElement =
-                                new XElement(Student.AttributesNameStrings[2], Student.Student1[0]);
-                            XElement studSpecializationElement =
-                                new XElement(Student.AttributesNameStrings[3], Student.Student1[0]);
-                            XElement studCoursElement = new XElement(Student.AttributesNameStrings[4], Student.Student1[0]);
-                            XElement studBirthDatElement =
-                                new XElement(Student.AttributesNameStrings[5], Student.Student1[0]);
-                            XElement studPlaceOfBirthElement =
-                                new XElement(Student.AttributesNameStrings[6], Student.Student1[0]);
-                            studsElement.Add(studElementNameAttribute, studSurnameElement, studOtchestvoElement,
-                                studSpecializationElement, studCoursElement, studBirthDatElement, studPlaceOfBirthElement);
-                            studElement.LastNode.AddAfterSelf(studsElement);
+                            
+                            Student.Student1[1] = textBox2.Text;
+                            Student.Student1[2] = textBox3.Text;
+                            Student.Student1[3] = textBox4.Text;
+                            Student.Student1[6] = textBox5.Text;
+                            Student.Student1[4] = maskedTextBox1.Text;
+                            Student.Student1.BirthDateTime = dateTimePicker1.Value;
+                            foreach (XElement xElement in xDoc.Elements("Студенты").Elements("Студент"))
+                            {
+                                if (xElement.FirstAttribute.Value == Student.Student1[0])
+                                {
+                                    Student.Student1[0] = textBox1.Text;
+                                    xElement.FirstAttribute.Value = Student.Student1[0];
+                                    XElement surnameElement = xElement.Element(Student.AttributesNameStrings[1]);
+                                    surnameElement.Value = Student.Student1[1];
+                                    XElement otchestvoElement = xElement.Element(Student.AttributesNameStrings[2]);
+                                    otchestvoElement.Value = Student.Student1[2];
+                                    XElement specializationElement = xElement.Element(Student.AttributesNameStrings[3]);
+                                    specializationElement.Value = Student.Student1[3];
+                                    XElement coursElement = xElement.Element(Student.AttributesNameStrings[4]);
+                                    coursElement.Value = Student.Student1[4];
+                                    XElement birthDateElement = xElement.Element(Student.AttributesNameStrings[5]);
+                                    birthDateElement.Value = Student.Student1[5];
+                                    XElement placeofBirthElement = xElement.Element(Student.AttributesNameStrings[6]);
+                                    placeofBirthElement.Value = Student.Student1[6];
+                                    break;
+                                }
+                            }
                             xDoc.Save(_pathString);
                             IsSuccess = true;
                             return flag;
@@ -85,61 +151,19 @@ namespace Lab05_2_KBIBAS187_3
                             return false;
                         }
                     }
-                    else
-                    {
-                        MessageBox.Show("Вы отменили изменения");
-                        IsSuccess = false;
-                        return false;
-                    }
+
                 }
                 else
                 {
-                    Student.Student1[0] = textBox1.Text;
-                    Student.Student1[1] = textBox2.Text;
-                    Student.Student1[2] = textBox3.Text;
-                    Student.Student1[3] = textBox4.Text;
-                    Student.Student1[6] = textBox5.Text;
-                    Student.Student1[4] = maskedTextBox1.Text;
-                    Student.Student1.BirthDateTime = dateTimePicker1.Value;
-                    if (File.ReadAllLines(_pathString).Length != 0)
-                    {
-                        XDocument xDoc = XDocument.Load(_pathString);
-                        XElement studElement = xDoc.Element("Студенты");
-                        XElement studsElement = new XElement("Студент");
-                        //Student student = new Student(textBox1.Text, textBox2.Text, textBox3.Text, textBox6.Text, int.Parse(textBox7.Text), dateTimePicker1.Value, textBox5.Text);
-                        XAttribute studElementNameAttribute =
-                            new XAttribute(Student.AttributesNameStrings[0], Student.Student1[0]);
-                        XElement studSurnameElement =
-                            new XElement(Student.AttributesNameStrings[1], Student.Student1[0]);
-                        XElement studOtchestvoElement =
-                            new XElement(Student.AttributesNameStrings[2], Student.Student1[0]);
-                        XElement studSpecializationElement =
-                            new XElement(Student.AttributesNameStrings[3], Student.Student1[0]);
-                        XElement studCoursElement = new XElement(Student.AttributesNameStrings[4], Student.Student1[0]);
-                        XElement studBirthDatElement =
-                            new XElement(Student.AttributesNameStrings[5], Student.Student1[0]);
-                        XElement studPlaceOfBirthElement =
-                            new XElement(Student.AttributesNameStrings[6], Student.Student1[0]);
-                        studsElement.Add(studElementNameAttribute, studSurnameElement, studOtchestvoElement,
-                            studSpecializationElement, studCoursElement, studBirthDatElement, studPlaceOfBirthElement);
-                        studElement.LastNode.AddAfterSelf(studsElement);
-                        xDoc.Save(_pathString);
-                        IsSuccess = true;
-                        return flag;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Файл пуст");
-                        IsSuccess = false;
-                        return false;
-                    }
+                    MessageBox.Show("Вы ничего не изменили держу в курсе");
+                    IsSuccess = false;
+                    return flag;
                 }
             }
-            else
+            catch (Exception exception)
             {
-                MessageBox.Show("Вы ничего не изменили держу в курсе");
-                IsSuccess = false;
-                return flag;
+                MessageBox.Show($"Ошибка: {exception.Message}");
+                return false;
             }
         }
         private void Edit_Load(object sender, EventArgs e)
@@ -149,8 +173,51 @@ namespace Lab05_2_KBIBAS187_3
 
         private void Edit_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Boolean isclosing = true;
-            EditStudent(ref isclosing);
+            if (!flag)
+            {
+                Boolean isclosing = true;
+                EditStudent(ref isclosing); 
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (!flag)
+            {
+                flag = !flag;
+                Boolean isclosing = false;
+                EditStudent(ref isclosing);
+                Close(); 
+            }
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+//XElement studsElement = new XElement("Студент");
+////Student student = new Student(textBox1.Text, textBox2.Text, textBox3.Text, textBox6.Text, int.Parse(textBox7.Text), dateTimePicker1.Value, textBox5.Text);
+//XAttribute studElementNameAttribute =
+//    new XAttribute(Student.AttributesNameStrings[0], Student.Student1[0]);
+//XElement studSurnameElement =
+//    new XElement(Student.AttributesNameStrings[1], Student.Student1[1]);
+//XElement studOtchestvoElement =
+//    new XElement(Student.AttributesNameStrings[2], Student.Student1[2]);
+//XElement studSpecializationElement =
+//    new XElement(Student.AttributesNameStrings[3], Student.Student1[3]);
+//XElement studCoursElement = new XElement(Student.AttributesNameStrings[4], Student.Student1[4]);
+//XElement studBirthDatElement =
+//    new XElement(Student.AttributesNameStrings[5], Student.Student1[5]);
+//XElement studPlaceOfBirthElement =
+//    new XElement(Student.AttributesNameStrings[6], Student.Student1[6]);
+//studsElement.Add(studElementNameAttribute, studSurnameElement, studOtchestvoElement,
+//    studSpecializationElement, studCoursElement, studBirthDatElement, studPlaceOfBirthElement);
+//studElement.LastNode.AddAfterSelf(studsElement);

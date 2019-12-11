@@ -136,7 +136,6 @@ namespace Lab05_2_KBIBAS187_3
             try
             {
                 xDocument = XDocument.Load(openFileDialog1.FileName);
-                XElement xaElement = xDocument.Element("Студенты");
                 foreach (XElement xElement in xDocument.Elements("Студенты").Elements("Студент"))
                 {
                     if (xElement.FirstAttribute.Value == listBox1.SelectedItem.ToString())
@@ -465,28 +464,86 @@ namespace Lab05_2_KBIBAS187_3
 
         private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e) //Редакитование
         {
-            if (listBox1.Items.Count!=0)
+            try
             {
-                if (listBox1.SelectedItem!=null)
+                if (listBox1.Items.Count != 0)
                 {
-                    XDocument xDoc= new XDocument();
-                    Student student = new Student();
-                    ReadXML(ref xDoc, ref student);
-                    Student.Student1 = student;
-                    using (Edit edit = new Edit(XmPathList[listBox1.SelectedIndex]))
+                    if (listBox1.SelectedItem != null)
                     {
-                        edit.Owner = this;
-                        edit.ShowDialog();
+                        XDocument xDoc = new XDocument();
+                        Student student = new Student();
+                        ReadXML(ref xDoc, ref student);
+                        Student.Student1 = student;
+                        int pos = listBox1.SelectedIndex;
+                        using (Edit edit = new Edit(XmPathList[listBox1.SelectedIndex]))
+                        {
+                            edit.Owner = this;
+                            edit.ShowDialog();
+                            if (edit.IsSuccess)
+                            {
+                                listBox1.Items.RemoveAt(pos);
+                                listBox1.Items.Add(Student.Student1[0]);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Не было произведено изменений в файле");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Выберите хоть что-то");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Выберите хоть что-то");
+                    MessageBox.Show($"Листбокс пустой");
                 }
             }
-            else
+            catch (Exception exception)
             {
-                MessageBox.Show($"Листбокс пустой");
+                MessageBox.Show($"Ошибка {exception.Message}");
+            }
+        }
+
+        private void создатьКартОчкуWordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (listBox1.Items.Count != 0)
+                {
+                    if (listBox1.SelectedItems.Count != 0)
+                    {
+                        if (saveFileDialog1.ShowDialog()== DialogResult.Cancel)
+                        {
+                            MessageBox.Show("Действие отменено");
+                            return;
+                        }
+                        Word.Application wordApplication = new Word.Application();
+                        Student student= new Student();
+                        XDocument xDoc= new XDocument();
+                        ReadXML(ref xDoc, ref student);
+                        wordApplication.Visible = false;
+                        Word.Document document = wordApplication.Documents.Add();
+                        wordApplication.Documents.Application.Caption="Карточка";
+                        document.Content.SetRange(0,0);
+                        document.Content.Text = student.ToString();
+                        document.SaveAs(saveFileDialog1.FileName);
+                        MessageBox.Show("Карточка была создана");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Выберите хоть что-то");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("В листбоксе нет объектов");
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Ошибка: {exception.Message}");
             }
         }
     }

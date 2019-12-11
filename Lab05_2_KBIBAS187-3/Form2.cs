@@ -34,12 +34,12 @@ namespace Lab05_2_KBIBAS187_3
                     XDocument xDoc = XDocument.Load(pathString);
                     XElement studElement = xDoc.Element("Студенты");
                     XElement studsElement = new XElement("Студент");
-                    Student student = new Student(textBox1.Text, textBox2.Text, textBox3.Text, textBox6.Text, int.Parse(textBox7.Text), dateTimePicker1.Value, textBox5.Text);
+                    Student student = new Student(textBox1.Text, textBox2.Text, textBox3.Text, textBox6.Text, int.Parse(maskedTextBox1.Text), dateTimePicker1.Value, textBox5.Text);
                     XAttribute studElementNameAttribute = new XAttribute(Student.AttributesNameStrings[0], textBox1.Text);
                     XElement studSurnameElement = new XElement(Student.AttributesNameStrings[1], textBox2.Text);
                     XElement studOtchestvoElement = new XElement(Student.AttributesNameStrings[2], textBox3.Text);
                     XElement studSpecializationElement = new XElement(Student.AttributesNameStrings[3], textBox6.Text);
-                    XElement studCoursElement = new XElement(Student.AttributesNameStrings[4], textBox7.Text);
+                    XElement studCoursElement = new XElement(Student.AttributesNameStrings[4], maskedTextBox1.Text);
                     XElement studBirthDatElement = new XElement(Student.AttributesNameStrings[5], student[5]);
                     XElement studPlaceOfBirthElement = new XElement(Student.AttributesNameStrings[6], textBox5.Text);
                     studsElement.Add(studElementNameAttribute, studSurnameElement, studOtchestvoElement, studSpecializationElement, studCoursElement, studBirthDatElement, studPlaceOfBirthElement);

@@ -116,6 +116,7 @@
             this.создатьКартОчкуWordToolStripMenuItem.Name = "создатьКартОчкуWordToolStripMenuItem";
             this.создатьКартОчкуWordToolStripMenuItem.Size = new System.Drawing.Size(650, 22);
             this.создатьКартОчкуWordToolStripMenuItem.Text = "Создать картОчку Word";
+            this.создатьКартОчкуWordToolStripMenuItem.Click += new System.EventHandler(this.создатьКартОчкуWordToolStripMenuItem_Click);
             // 
             // создатьКартОчкуPDFToolStripMenuItem
             // 
@@ -142,6 +143,7 @@
             // 
             // toolStripTextBox1
             // 
+            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
             // 
