@@ -116,7 +116,7 @@ namespace Lab05_2_KBIBAS187_3
             }
         }
 
-        private bool ReadXML(ref XDocument xDocument, ref Student student)
+        private bool ReadXML(ref XDocument xDocument, ref Student student) //Чтение .XML
         {
             try
             {
@@ -199,7 +199,7 @@ namespace Lab05_2_KBIBAS187_3
         {
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e) //Перечитывание .XML файла при изменении индекса
         {
             try
             {
@@ -228,7 +228,7 @@ namespace Lab05_2_KBIBAS187_3
             }
         }
 
-        private void загрузкаВXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        private void загрузкаВXMLToolStripMenuItem_Click(object sender, EventArgs e) //Из .txt в .xml
         {
             try
             {
@@ -287,7 +287,7 @@ namespace Lab05_2_KBIBAS187_3
             }
         }
 
-        private void загрузкаИзXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        private void загрузкаИзXMLToolStripMenuItem_Click(object sender, EventArgs e) //Изначальная загрузка .XML с которым будем работать
         {
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
             {
@@ -327,7 +327,7 @@ namespace Lab05_2_KBIBAS187_3
 
         private void
             определитьОбщееКоличествоСтудентовУказанногоКурсаИнформациюВыдаватьВВидеСообщенияToolStripMenuItem_Click(
-                object sender, EventArgs e)
+                object sender, EventArgs e) //Посчтитаь количество стдуентов с одного курса
         {
             try
             {
@@ -347,7 +347,7 @@ namespace Lab05_2_KBIBAS187_3
             }
         }
 
-        private void доабвитьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void доабвитьToolStripMenuItem_Click(object sender, EventArgs e) //Добавить в .XML
         {
             try
             {
@@ -459,7 +459,7 @@ namespace Lab05_2_KBIBAS187_3
             }
         }
 
-        private void создатьКартОчкуWordToolStripMenuItem_Click(object sender, EventArgs e)
+        private void создатьКартОчкуWordToolStripMenuItem_Click(object sender, EventArgs e) //Создание карточки Word
         {
             try
             {

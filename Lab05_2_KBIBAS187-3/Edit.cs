@@ -171,22 +171,3 @@ namespace Lab05_2_KBIBAS187_3
         }
     }
 }
-
-//XElement studsElement = new XElement("Студент");
-////Student student = new Student(textBox1.Text, textBox2.Text, textBox3.Text, textBox6.Text, int.Parse(textBox7.Text), dateTimePicker1.Value, textBox5.Text);
-//XAttribute studElementNameAttribute =
-//    new XAttribute(Student.AttributesNameStrings[0], Student.Student1[0]);
-//XElement studSurnameElement =
-//    new XElement(Student.AttributesNameStrings[1], Student.Student1[1]);
-//XElement studOtchestvoElement =
-//    new XElement(Student.AttributesNameStrings[2], Student.Student1[2]);
-//XElement studSpecializationElement =
-//    new XElement(Student.AttributesNameStrings[3], Student.Student1[3]);
-//XElement studCoursElement = new XElement(Student.AttributesNameStrings[4], Student.Student1[4]);
-//XElement studBirthDatElement =
-//    new XElement(Student.AttributesNameStrings[5], Student.Student1[5]);
-//XElement studPlaceOfBirthElement =
-//    new XElement(Student.AttributesNameStrings[6], Student.Student1[6]);
-//studsElement.Add(studElementNameAttribute, studSurnameElement, studOtchestvoElement,
-//    studSpecializationElement, studCoursElement, studBirthDatElement, studPlaceOfBirthElement);
-//studElement.LastNode.AddAfterSelf(studsElement);
