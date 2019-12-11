@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Lab07_KBIBAS187_3_4_
@@ -18,40 +12,30 @@ namespace Lab07_KBIBAS187_3_4_
             InitializeComponent();
         }
 
-        public Boolean flag { get; set; } = false;
+        public bool flag { get; set; }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Shift && e.KeyCode == Keys.Delete)
-            {
-                textBox1.Text = String.Empty;
-            }
-            else if (e.Shift)
-            {
-                listBox1.Items.Clear();
-            }
+            if (e.Shift && e.KeyCode == Keys.Delete) textBox1.Text = string.Empty;
+            else if (e.Shift) listBox1.Items.Clear();
         }
 
         private void textBox1_MouseDown(object sender, MouseEventArgs e)
         {
             if (flag)
             {
-                if (!String.IsNullOrEmpty(textBox1.Text))
-                {
-                    textBox1.DoDragDrop(textBox1.Text, DragDropEffects.Copy|DragDropEffects.Move);
-                }
+                if (!string.IsNullOrEmpty(textBox1.Text))
+                    textBox1.DoDragDrop(textBox1.Text, DragDropEffects.Copy | DragDropEffects.Move);
             }
             else
             {
-                if (!String.IsNullOrEmpty(textBox1.Text))
-                {
-                    textBox1.DoDragDrop(textBox1.Text, DragDropEffects.Move| DragDropEffects.Copy);
-                    //textBox1.Text=String.Empty;
-                }
+                if (!string.IsNullOrEmpty(textBox1.Text))
+                    textBox1.DoDragDrop(textBox1.Text, DragDropEffects.Move | DragDropEffects.Copy);
+                //textBox1.Text=String.Empty;
             }
         }
 
@@ -59,7 +43,7 @@ namespace Lab07_KBIBAS187_3_4_
         {
             listBox1.Items.Add(e.Data.GetData(DataFormats.Text)).ToString();
             textBox1.BackColor = DefaultBackColor;
-            textBox1.Text=String.Empty;
+            textBox1.Text = string.Empty;
         }
 
         private void textBox1_GiveFeedback(object sender, GiveFeedbackEventArgs e)
@@ -67,7 +51,7 @@ namespace Lab07_KBIBAS187_3_4_
             switch (e.Effect)
             {
                 case DragDropEffects.Move:
-                    textBox1.BackColor= Color.Blue;
+                    textBox1.BackColor = Color.Blue;
                     break;
                 case DragDropEffects.Copy:
                     textBox1.BackColor = Color.Red;
@@ -84,18 +68,14 @@ namespace Lab07_KBIBAS187_3_4_
             {
                 listBox1.BackColor = Color.Red;
             }
-            else if (e.Effect== DragDropEffects.Copy)
+            else if (e.Effect == DragDropEffects.Copy)
             {
-                
             }
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (ModifierKeys == Keys.Control && e.KeyCode == Keys.D)
-            {
-                flag = true;
-            }
+            if (ModifierKeys == Keys.Control && e.KeyCode == Keys.D) flag = true;
         }
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
@@ -111,14 +91,8 @@ namespace Lab07_KBIBAS187_3_4_
 
         private void listBox1_DragEnter(object sender, DragEventArgs e)
         {
-            if (flag)
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.Move;
-            }
+            if (flag) e.Effect = DragDropEffects.Copy;
+            else e.Effect = DragDropEffects.Move;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -142,30 +116,18 @@ namespace Lab07_KBIBAS187_3_4_
                     case "Сохранить":
                     {
                         if (listBox1.Items.Count != 0)
-                        {
                             foreach (string s in listBox1.Items)
-                            {
                                 File.AppendAllText(saveFileDialog1.FileName, s);
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Листбокс пустой");
-                        }
-
-                        label1.Text = $"Читать текст";
+                        else MessageBox.Show("Листбокс пустой");
+                        label1.Text = "Читать текст";
                         break;
                     }
                     case "Читать текст":
                     {
-                        if (File.ReadAllLines(openFileDialog1.FileName).Length!=0)
+                        if (File.ReadAllLines(openFileDialog1.FileName).Length != 0)
                         {
-                            foreach (string line in File.ReadAllLines(openFileDialog1.FileName))
-                            {
-                                listBox1.Items.Add(line);
-                            }
-
-                            label1.Text = $"Сохранить";
+                            foreach (var line in File.ReadAllLines(openFileDialog1.FileName)) listBox1.Items.Add(line);
+                            label1.Text = "Сохранить";
                         }
 
                         break;
