@@ -42,20 +42,16 @@ namespace Lab07_KBIBAS187_3_4_
             {
                 if (!String.IsNullOrEmpty(textBox1.Text))
                 {
-                    textBox1.DoDragDrop(textBox1.Text, DragDropEffects.Copy | DragDropEffects.Move);
+                    textBox1.DoDragDrop(textBox1.Text, DragDropEffects.Copy|DragDropEffects.Move);
                 }
-            }
-        }
-
-        private void listBox1_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.Text))
-            {
-                e.Effect = DragDropEffects.Copy;
             }
             else
             {
-                e.Effect = DragDropEffects.None;
+                if (!String.IsNullOrEmpty(textBox1.Text))
+                {
+                    textBox1.DoDragDrop(textBox1.Text, DragDropEffects.Move| DragDropEffects.Copy);
+                    textBox1.Text=String.Empty;
+                }
             }
         }
 
@@ -67,13 +63,17 @@ namespace Lab07_KBIBAS187_3_4_
 
         private void textBox1_GiveFeedback(object sender, GiveFeedbackEventArgs e)
         {
-            if (e.Effect== DragDropEffects.Copy)
+            switch (e.Effect)
             {
-                textBox1.BackColor= Color.Blue;
-            }
-            else
-            {
-                textBox1.BackColor = DefaultBackColor;
+                case DragDropEffects.Move:
+                    textBox1.BackColor= Color.Blue;
+                    break;
+                case DragDropEffects.Copy:
+                    textBox1.BackColor = Color.Red;
+                    break;
+                default:
+                    textBox1.BackColor = DefaultBackColor;
+                    break;
             }
         }
 
@@ -83,15 +83,15 @@ namespace Lab07_KBIBAS187_3_4_
             {
                 listBox1.BackColor = Color.Red;
             }
-            else
+            else if (e.Effect== DragDropEffects.Copy)
             {
-                listBox1.BackColor = DefaultBackColor;
+                
             }
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (ModifierKeys== Keys.Control&&e.KeyCode== Keys.D)
+            if (ModifierKeys == Keys.Control && e.KeyCode == Keys.D)
             {
                 flag = true;
             }
@@ -100,6 +100,24 @@ namespace Lab07_KBIBAS187_3_4_
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             flag = false;
+        }
+
+        private void textBox1_DragDrop(object sender, DragEventArgs e)
+        {
+            textBox1.Text = e.Data.GetData(DataFormats.StringFormat).ToString();
+            listBox1.BackColor = DefaultBackColor;
+        }
+
+        private void listBox1_DragEnter(object sender, DragEventArgs e)
+        {
+            if (flag)
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.Move;
+            }
         }
     }
 }
