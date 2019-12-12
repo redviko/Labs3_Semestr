@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Lab07_KBIBAS187_3_4_
@@ -12,8 +13,11 @@ namespace Lab07_KBIBAS187_3_4_
             InitializeComponent();
         }
 
+        public String DraggedText { get; set; }
         public bool flag { get; set; }
 
+        [DllImport("user32.dll")]
+        private static extern short GetKeyState(Keys key);
         private void Form1_Load(object sender, EventArgs e)
         {
         }
@@ -28,13 +32,13 @@ namespace Lab07_KBIBAS187_3_4_
         {
             if (flag)
             {
-                if (!string.IsNullOrEmpty(textBox1.Text))
-                    textBox1.DoDragDrop(textBox1.Text, DragDropEffects.Copy | DragDropEffects.Move);
+                if (!string.IsNullOrEmpty(textBox1.SelectedText))
+                    textBox1.DoDragDrop(textBox1.SelectedText, DragDropEffects.Copy);
             }
             else
             {
-                if (!string.IsNullOrEmpty(textBox1.Text))
-                    textBox1.DoDragDrop(textBox1.Text, DragDropEffects.Move | DragDropEffects.Copy);
+                if (!string.IsNullOrEmpty(textBox1.SelectedText))
+                    textBox1.DoDragDrop(textBox1.SelectedText, DragDropEffects.Move);
                 //textBox1.Text=String.Empty;
             }
         }
@@ -43,23 +47,26 @@ namespace Lab07_KBIBAS187_3_4_
         {
             listBox1.Items.Add(e.Data.GetData(DataFormats.Text)).ToString();
             textBox1.BackColor = DefaultBackColor;
-            textBox1.Text = string.Empty;
+            if (!Copy)
+            {
+                textBox1.SelectedText = String.Empty; 
+            }
         }
 
         private void textBox1_GiveFeedback(object sender, GiveFeedbackEventArgs e)
         {
-            switch (e.Effect)
-            {
-                case DragDropEffects.Move:
-                    textBox1.BackColor = Color.Blue;
-                    break;
-                case DragDropEffects.Copy:
-                    textBox1.BackColor = Color.Red;
-                    break;
-                default:
-                    textBox1.BackColor = DefaultBackColor;
-                    break;
-            }
+            //switch (e.Effect)
+            //{
+            //    case DragDropEffects.Move:
+            //        textBox1.BackColor = Color.Blue;
+            //        break;
+            //    case DragDropEffects.Copy:
+            //        textBox1.BackColor = Color.Red;
+            //        break;
+            //    default:
+            //        textBox1.BackColor = DefaultBackColor;
+            //        break;
+            //}
         }
 
         private void listBox1_GiveFeedback(object sender, GiveFeedbackEventArgs e)
@@ -137,6 +144,42 @@ namespace Lab07_KBIBAS187_3_4_
             catch (Exception exception)
             {
                 MessageBox.Show($"Ошибка: {exception.Message}");
+            }
+        }
+
+        private void textBox1_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        {
+            if (e.EscapePressed)
+            {
+                e.Action = DragAction.Cancel;
+                textBox1.BackColor = DefaultBackColor;
+                
+            }
+            else
+            {
+                if (GetKeyState(Keys.LControlKey)<0&&GetKeyState(Keys.D)<0)
+                {
+                    Copy = true;
+                    textBox1.BackColor = Color.Red;
+                }
+                else
+                {
+                    Copy = false;
+                    textBox1.BackColor=Color.Blue;
+                }
+            }
+        }
+
+        public Boolean Selected { get; set; }
+        public Boolean Copy { get; set; }
+        private void textBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (textBox1.SelectedText.Length > 0)
+            {
+                //StartInd = textBox1.SelectionStart;
+                DraggedText = textBox1.SelectedText;
+                Selected = true;
+                textBox1.BackColor = DefaultBackColor;
             }
         }
     }
