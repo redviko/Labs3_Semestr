@@ -363,7 +363,7 @@ namespace Lab05_KBIBAS187_3
             }
         }
 
-        private void ToolStripMenuItem13_Click(object sender, EventArgs e)
+        private void ToolStripMenuItem13_Click(object sender, EventArgs e) //Соритрованный выввод
         {
             if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
             {
@@ -373,10 +373,15 @@ namespace Lab05_KBIBAS187_3
 
             if (ItemsCountCheck())
             {
-                listBox1.Items.Cast<string>().OrderBy(x => x);
-                foreach (string listBox1Item in listBox1.Items)
+                List<string> stringList=new List<string>();
+                foreach (string item in listBox1.Items)
                 {
-                    AppendAllText(saveFileDialog1.FileName,listBox1Item, Encoding.Default);
+                    stringList.Add(item);
+                }
+                stringList.Sort();
+                foreach (string s in stringList)
+                {
+                    AppendAllText(saveFileDialog1.FileName,"\r\n"+s, Encoding.Default);
                 }
 
                 MessageBox.Show("Действие выполнено");
