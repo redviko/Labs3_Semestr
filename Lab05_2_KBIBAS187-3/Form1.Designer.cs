@@ -36,7 +36,6 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьКартОчкуWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьКартОчкуPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.создатьКартОчкуEcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.определитьОбщееКоличествоСтудентовУказанногоКурсаИнформациюВыдаватьВВидеСообщенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.действияНадXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,7 +104,6 @@
             this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.создатьКартОчкуWordToolStripMenuItem,
             this.создатьКартОчкуPDFToolStripMenuItem,
-            this.создатьКартОчкуEcelToolStripMenuItem,
             this.определитьОбщееКоличествоСтудентовУказанногоКурсаИнформациюВыдаватьВВидеСообщенияToolStripMenuItem});
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(64, 20);
@@ -125,12 +123,6 @@
             this.создатьКартОчкуPDFToolStripMenuItem.Text = "Создать картОчку PDF";
             this.создатьКартОчкуPDFToolStripMenuItem.Click += new System.EventHandler(this.создатьКартОчкуPDFToolStripMenuItem_Click);
             // 
-            // создатьКартОчкуEcelToolStripMenuItem
-            // 
-            this.создатьКартОчкуEcelToolStripMenuItem.Name = "создатьКартОчкуEcelToolStripMenuItem";
-            this.создатьКартОчкуEcelToolStripMenuItem.Size = new System.Drawing.Size(650, 22);
-            this.создатьКартОчкуEcelToolStripMenuItem.Text = "Создать картОчку Ecel";
-            // 
             // определитьОбщееКоличествоСтудентовУказанногоКурсаИнформациюВыдаватьВВидеСообщенияToolStripMenuItem
             // 
             this.определитьОбщееКоличествоСтудентовУказанногоКурсаИнформациюВыдаватьВВидеСообщенияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -147,6 +139,7 @@
             this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox1_KeyPress);
             // 
             // действияНадXMLToolStripMenuItem
             // 
@@ -291,7 +284,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem создатьКартОчкуWordToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem создатьКартОчкуPDFToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem создатьКартОчкуEcelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem определитьОбщееКоличествоСтудентовУказанногоКурсаИнформациюВыдаватьВВидеСообщенияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem действияНадXMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem доабвитьToolStripMenuItem;

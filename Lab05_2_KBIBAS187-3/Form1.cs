@@ -15,6 +15,9 @@ namespace Lab05_2_KBIBAS187_3
         {
             InitializeComponent();
         }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+        }
 
         public static List<string> XmPathList { get; set; } = new List<string>();
 
@@ -196,10 +199,6 @@ namespace Lab05_2_KBIBAS187_3
                 return false;
             }
         } //Изначальный метод для считывания XML
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-        }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e) //Перечитывание .XML файла при изменении индекса
         {
@@ -549,6 +548,14 @@ namespace Lab05_2_KBIBAS187_3
             {
                 MessageBox.Show($"Ошибка:{exception.Message}");
             }
-        }
+        } //Создание карточки PDF
+
+        //private void toolStripTextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        //{
+        //    if (e.KeyChar=='-'&&e.KeyChar=='.'&&e.KeyChar==','&&!char)
+        //    {
+        //        e.Handled = true;
+        //    }
+        //}
     }
 }
