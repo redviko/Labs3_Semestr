@@ -131,7 +131,7 @@ namespace Lab05_2_KBIBAS187_3
         public override string ToString()
         {
             return
-                $"Имя:{Name} Фамилия:{Surname} Отчество:{Otchestvo}\r\nКурс:{Course} Дата рождения{BirthDateTime.Day}.{BirthDateTime.Month}.{BirthDateTime.Year} Место рождения:{PlaceOfBirth}";
+                $"Имя:{Name} Фамилия:{Surname} Отчество:{Otchestvo}\nКурс:{Course}\n Дата рождения{BirthDateTime.Day}.{BirthDateTime.Month}.{BirthDateTime.Year} \n Место рождения:{PlaceOfBirth}";
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.IO.File;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
 using Application = Microsoft.Office.Interop.Word.Application;
 
 namespace Lab05_2_KBIBAS187_3
@@ -484,6 +486,8 @@ namespace Lab05_2_KBIBAS187_3
                         document.Content.Text = student.ToString();
                         document.SaveAs(saveFileDialog1.FileName);
                         MessageBox.Show("Карточка была создана");
+                        wordApplication?.Quit();
+                        wordApplication = null;
                     }
                     else
                     {
@@ -498,6 +502,52 @@ namespace Lab05_2_KBIBAS187_3
             catch (Exception exception)
             {
                 MessageBox.Show($"Ошибка: {exception.Message}");
+            }
+        }
+
+        [Obsolete]
+        private void создатьКартОчкуPDFToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (listBox1.Items.Count != 0)
+                {
+                    if (listBox1.SelectedItems.Count != 0)
+                    {
+                        if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+                        {
+                            MessageBox.Show("Действие отменено");
+                            return;
+                        }
+                        PdfDocument document = new PdfDocument();
+                        PdfPage page = document.AddPage();
+                        XGraphics graphics = XGraphics.FromPdfPage(page);
+                        Student student = new Student();
+                        XDocument xDocument = new XDocument();
+                        ReadXML(ref xDocument, ref student);
+                        XFont font = new XFont("Times New Roman", 14, XFontStyle.Bold);
+                        int line = 30;
+                        foreach (string s in student.ToString().Split(new[] { '\n' }))
+                        {
+                            graphics.DrawString(s, font, XBrushes.Black, new XRect(0, line, page.Width, page.Height), XStringFormat.TopCenter);
+                            line += 14;
+                        }
+                        document.Save(saveFileDialog1.FileName);
+                        MessageBox.Show("Карточка создана");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Выберите хоть что-то");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Листбокс пуст");
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Ошибка:{exception.Message}");
             }
         }
     }

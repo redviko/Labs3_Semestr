@@ -123,6 +123,7 @@
             this.создатьКартОчкуPDFToolStripMenuItem.Name = "создатьКартОчкуPDFToolStripMenuItem";
             this.создатьКартОчкуPDFToolStripMenuItem.Size = new System.Drawing.Size(650, 22);
             this.создатьКартОчкуPDFToolStripMenuItem.Text = "Создать картОчку PDF";
+            this.создатьКартОчкуPDFToolStripMenuItem.Click += new System.EventHandler(this.создатьКартОчкуPDFToolStripMenuItem_Click);
             // 
             // создатьКартОчкуEcelToolStripMenuItem
             // 
@@ -160,21 +161,21 @@
             // доабвитьToolStripMenuItem
             // 
             this.доабвитьToolStripMenuItem.Name = "доабвитьToolStripMenuItem";
-            this.доабвитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.доабвитьToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.доабвитьToolStripMenuItem.Text = "Доабвить";
             this.доабвитьToolStripMenuItem.Click += new System.EventHandler(this.доабвитьToolStripMenuItem_Click);
             // 
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
             // редактироватьToolStripMenuItem
             // 
             this.редактироватьToolStripMenuItem.Name = "редактироватьToolStripMenuItem";
-            this.редактироватьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.редактироватьToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.редактироватьToolStripMenuItem.Text = "Редактировать";
             this.редактироватьToolStripMenuItem.Click += new System.EventHandler(this.редактироватьToolStripMenuItem_Click);
             // 
