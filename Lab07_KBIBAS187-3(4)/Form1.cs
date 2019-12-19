@@ -106,22 +106,19 @@ namespace Lab07_KBIBAS187_3_4_
         {
             try
             {
-                if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
-                {
-                    MessageBox.Show("Действие отменено");
-                    return;
-                }
+             
 
-                if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
-                {
-                    MessageBox.Show("Действие отменено");
-                    return;
-                }
+               
 
                 switch (label1.Text)
                 {
                     case "Сохранить":
                     {
+                        if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+                        {
+                            MessageBox.Show("Действие отменено");
+                            return;
+                        }
                         if (listBox1.Items.Count != 0)
                             foreach (string s in listBox1.Items)
                                 File.AppendAllText(saveFileDialog1.FileName, s);
@@ -131,6 +128,11 @@ namespace Lab07_KBIBAS187_3_4_
                     }
                     case "Читать текст":
                     {
+                        if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+                        {
+                            MessageBox.Show("Действие отменено");
+                            return;
+                        }
                         if (File.ReadAllLines(openFileDialog1.FileName).Length != 0)
                         {
                             foreach (var line in File.ReadAllLines(openFileDialog1.FileName)) listBox1.Items.Add(line);
