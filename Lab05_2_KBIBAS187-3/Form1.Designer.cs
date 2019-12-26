@@ -136,10 +136,8 @@
             // 
             // toolStripTextBox1
             // 
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
-            this.toolStripTextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox1_KeyPress);
             // 
             // действияНадXMLToolStripMenuItem
             // 
@@ -190,9 +188,8 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(270, 88);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "label2";
             // 
             // label3
             // 
@@ -208,9 +205,8 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(270, 101);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.Size = new System.Drawing.Size(0, 13);
             this.label4.TabIndex = 6;
-            this.label4.Text = "label4";
             // 
             // label5
             // 
@@ -226,9 +222,8 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(270, 114);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.Size = new System.Drawing.Size(0, 13);
             this.label6.TabIndex = 8;
-            this.label6.Text = "label6";
             // 
             // label7
             // 
@@ -244,9 +239,8 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(270, 127);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(35, 13);
+            this.label8.Size = new System.Drawing.Size(0, 13);
             this.label8.TabIndex = 10;
-            this.label8.Text = "label8";
             // 
             // Form1
             // 

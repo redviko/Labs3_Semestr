@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.IO.File;
@@ -46,6 +47,11 @@ namespace Lab05_2_KBIBAS187_3
                     //    }
                     //    listBox1.SelectedIndex++;
                     //}
+                    if (toolStripTextBox1.TextLength>1)
+                    {
+                        MessageBox.Show("Введите от 0-10");
+                        return false;
+                    }
 
                     if (count != 0)
                     {
@@ -247,6 +253,15 @@ namespace Lab05_2_KBIBAS187_3
                     var strings = new List<string[]>();
                     for (var i = 0; i < lines.Length; i++)
                         strings.Add(lines[i].Split(new[] {' ', '.'}, StringSplitOptions.RemoveEmptyEntries));
+                    foreach (string[] stringse in strings)
+                    {
+                        if (stringse.Length<8)
+                        {
+                            MessageBox.Show("Один из объектов поврежден");
+                            strings.Remove(stringse);
+                            return;
+                        }
+                    }
                     var dateTimes = new List<DateTime>();
                     foreach (var s in strings)
                         dateTimes.Add(new DateTime(int.Parse(s[7]), int.Parse(s[6]), int.Parse(s[5])));
@@ -386,14 +401,21 @@ namespace Lab05_2_KBIBAS187_3
                 {
                     if (listBox1.SelectedItems.Count != 0)
                     {
+                        label2.Text= String.Empty;
+                        label4.Text= String.Empty;
+                        label6.Text= String.Empty;
+                        label8.Text = String.Empty;
+                        int index = 0;
                         var xDoc = XDocument.Load(XmPathList[listBox1.SelectedIndex]);
                         foreach (var xElement in xDoc.Elements("Студенты").Elements("Студент"))
                             if (xElement.FirstAttribute.Value == listBox1.SelectedItem.ToString())
                             {
                                 xElement.Remove();
                                 isright = true;
+                                index = listBox1.SelectedIndex;
                                 xDoc.Save(XmPathList[listBox1.SelectedIndex]);
                                 listBox1.Items.Remove(listBox1.SelectedItem);
+                                listBox1.SelectedIndex = --index;
                                 break;
                             }
 
